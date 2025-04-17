@@ -91,7 +91,7 @@ const WorkflowPage = () => {
                       <h3 className="text-sm font-bold text-green-800">Using Tool</h3>
                       <p className="text-xs text-gray-700 mt-1">Search the internet with Serper</p>
                       <p className="text-xs bg-gray-100 p-1 rounded mt-1 font-mono">
-                        {"search_query": "capital of France"}
+                        {'{\"search_query\": \"capital of France\"}'}
                       </p>
                     </div>
                   </div>
