@@ -63,27 +63,73 @@ const initialNodes: Node[] = [
   }
 ];
 
+// Updated edges to show the correct flow of interactions
 const initialEdges: Edge[] = [
+  // Agent initiates tool usage
   {
     id: "edge-agent-to-tool",
     source: "agent-1",
     target: "tool-1",
     animated: true,
+    label: "1. Uses",
+    labelBgPadding: [8, 4],
+    labelBgBorderRadius: 4,
+    labelBgStyle: { fill: "#FFFFFF", fillOpacity: 0.8 },
+    labelStyle: { fill: "#333333", fontWeight: 500 },
     style: { stroke: "#3b82f6", strokeWidth: 2 },
     markerEnd: {
       type: MarkerType.ArrowClosed,
       color: "#3b82f6",
     }
   },
+  // Agent initiates executions
+  {
+    id: "edge-agent-to-execution-1",
+    source: "agent-1",
+    target: "execution-1",
+    animated: true,
+    label: "2. Initiates",
+    labelBgPadding: [8, 4],
+    labelBgBorderRadius: 4,
+    labelBgStyle: { fill: "#FFFFFF", fillOpacity: 0.8 },
+    labelStyle: { fill: "#333333", fontWeight: 500 },
+    style: { stroke: "#8b5cf6", strokeWidth: 2 },
+    markerEnd: {
+      type: MarkerType.ArrowClosed,
+      color: "#8b5cf6",
+    }
+  },
+  {
+    id: "edge-agent-to-execution-2",
+    source: "agent-1",
+    target: "execution-2",
+    animated: true,
+    label: "2. Initiates",
+    labelBgPadding: [8, 4],
+    labelBgBorderRadius: 4,
+    labelBgStyle: { fill: "#FFFFFF", fillOpacity: 0.8 },
+    labelStyle: { fill: "#333333", fontWeight: 500 },
+    style: { stroke: "#8b5cf6", strokeWidth: 2 },
+    markerEnd: {
+      type: MarkerType.ArrowClosed,
+      color: "#8b5cf6",
+    }
+  },
+  // Tool contributes to executions
   {
     id: "edge-tool-to-execution-1",
     source: "tool-1",
     target: "execution-1",
     animated: true,
-    style: { stroke: "#8b5cf6", strokeWidth: 2 },
+    label: "3. Helps with",
+    labelBgPadding: [8, 4],
+    labelBgBorderRadius: 4,
+    labelBgStyle: { fill: "#FFFFFF", fillOpacity: 0.8 },
+    labelStyle: { fill: "#333333", fontWeight: 500 },
+    style: { stroke: "#10b981", strokeWidth: 2 },
     markerEnd: {
       type: MarkerType.ArrowClosed,
-      color: "#8b5cf6",
+      color: "#10b981",
     }
   },
   {
@@ -91,10 +137,33 @@ const initialEdges: Edge[] = [
     source: "tool-1",
     target: "execution-2",
     animated: true,
-    style: { stroke: "#8b5cf6", strokeWidth: 2 },
+    label: "3. Helps with",
+    labelBgPadding: [8, 4],
+    labelBgBorderRadius: 4,
+    labelBgStyle: { fill: "#FFFFFF", fillOpacity: 0.8 },
+    labelStyle: { fill: "#333333", fontWeight: 500 },
+    style: { stroke: "#10b981", strokeWidth: 2 },
     markerEnd: {
       type: MarkerType.ArrowClosed,
-      color: "#8b5cf6",
+      color: "#10b981",
+    }
+  },
+  // Results flow back to the agent
+  {
+    id: "edge-tool-to-agent",
+    source: "tool-1",
+    target: "agent-1",
+    animated: true,
+    label: "4. Returns data",
+    labelBgPadding: [8, 4],
+    labelBgBorderRadius: 4,
+    labelBgStyle: { fill: "#FFFFFF", fillOpacity: 0.8 },
+    labelStyle: { fill: "#333333", fontWeight: 500 },
+    type: 'smoothstep',
+    style: { stroke: "#f97316", strokeWidth: 2 },
+    markerEnd: {
+      type: MarkerType.ArrowClosed,
+      color: "#f97316",
     }
   }
 ];

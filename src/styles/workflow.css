@@ -21,6 +21,11 @@
   stroke-width: 2;
 }
 
+.react-flow__edge-text {
+  font-size: 12px;
+  font-weight: 500;
+}
+
 .react-flow__node-agent {
   border-color: #3b82f6;
 }
@@ -46,4 +51,22 @@
 .react-flow__background {
   background-size: 20px 20px;
   background-color: #f8fafc;
+}
+
+/* Edge styling for different interaction types */
+.react-flow__edge.animated .react-flow__edge-path {
+  stroke-dasharray: 5;
+  animation: dashdraw 0.5s linear infinite;
+}
+
+@keyframes dashdraw {
+  from {
+    stroke-dashoffset: 10;
+  }
+}
+
+/* Custom handle styling by position */
+.react-flow__handle.custom-handle {
+  width: 8px;
+  height: 8px;
 }

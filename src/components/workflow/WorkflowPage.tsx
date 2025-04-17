@@ -17,6 +17,32 @@ const WorkflowPage = () => {
               <AgentWorkflow />
             </CardContent>
           </Card>
+          
+          <Card className="mt-4">
+            <CardHeader className="pb-2">
+              <CardTitle className="text-sm">Workflow Legend</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+                <div className="flex items-center">
+                  <div className="w-4 h-1 bg-blue-500 mr-2"></div>
+                  <span>Agent to Tool (Step 1)</span>
+                </div>
+                <div className="flex items-center">
+                  <div className="w-4 h-1 bg-purple-500 mr-2"></div>
+                  <span>Agent to Execution (Step 2)</span>
+                </div>
+                <div className="flex items-center">
+                  <div className="w-4 h-1 bg-green-500 mr-2"></div>
+                  <span>Tool to Execution (Step 3)</span>
+                </div>
+                <div className="flex items-center">
+                  <div className="w-4 h-1 bg-orange-500 mr-2"></div>
+                  <span>Data Flow Return (Step 4)</span>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
         </div>
         
         <div className="lg:col-span-1">

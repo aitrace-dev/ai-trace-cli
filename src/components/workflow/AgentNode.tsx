@@ -3,7 +3,6 @@ import { Handle, Position } from "@xyflow/react";
 
 interface AgentNodeProps {
   data: {
-    label: string;
     role: string;
     goal: string;
     backstory: string;
@@ -26,9 +25,27 @@ const AgentNode = ({ data }: AgentNodeProps) => {
         <p className="text-gray-700">{data.backstory}</p>
       </div>
       <Handle
+        type="target"
+        position={Position.Top}
+        id="in"
+        className="w-3 h-3 bg-blue-500 border-2 border-white"
+      />
+      <Handle
         type="source"
         position={Position.Bottom}
         id="out"
+        className="w-3 h-3 bg-blue-500 border-2 border-white"
+      />
+      <Handle
+        type="source"
+        position={Position.Right}
+        id="right"
+        className="w-3 h-3 bg-blue-500 border-2 border-white"
+      />
+      <Handle
+        type="target"
+        position={Position.Left}
+        id="left"
         className="w-3 h-3 bg-blue-500 border-2 border-white"
       />
     </div>
