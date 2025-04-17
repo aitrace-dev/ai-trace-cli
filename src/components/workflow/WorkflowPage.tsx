@@ -39,6 +39,10 @@ const WorkflowPage = () => {
                   <p>You are an experienced researcher with attention to detail</p>
                 </div>
                 <div>
+                  <h3 className="text-sm font-medium text-gray-500">Status</h3>
+                  <p className="text-green-600 font-medium">Completed</p>
+                </div>
+                <div>
                   <h3 className="text-sm font-medium text-gray-500">Verbose Mode</h3>
                   <p>Enabled</p>
                 </div>
@@ -53,11 +57,14 @@ const WorkflowPage = () => {
             <CardContent>
               <div className="p-3 bg-green-50 border border-green-200 rounded-md mb-3">
                 <h3 className="font-medium text-green-800">SerperDevTool</h3>
-                <p className="text-sm text-gray-600">Web search and information retrieval tool</p>
+                <p className="text-sm text-gray-600">Search the internet with Serper</p>
+                <p className="text-xs text-gray-500 mt-1">Used for: Web search and information retrieval</p>
               </div>
               
-              <div className="text-sm text-gray-500 mt-4">
-                <p>Tools enable agents to interact with external systems and data sources.</p>
+              <div className="p-3 bg-purple-50 border border-purple-200 rounded-md">
+                <h3 className="font-medium text-purple-800">Last Execution</h3>
+                <p className="text-sm text-gray-600">Search: capital of France</p>
+                <p className="text-xs font-medium text-green-600 mt-1">Result: The capital of France is Paris.</p>
               </div>
             </CardContent>
           </Card>

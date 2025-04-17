@@ -23,7 +23,7 @@
 
 .react-flow__edge-text {
   font-size: 12px;
-  font-weight: 500;
+  font-weight: 700;
 }
 
 .react-flow__node-agent {
@@ -78,4 +78,9 @@
 .react-flow__handle.custom-handle {
   width: 8px;
   height: 8px;
+}
+
+/* Numbered flow styling */
+.react-flow__edge-text-label {
+  filter: drop-shadow(0px 0px 1px white);
 }

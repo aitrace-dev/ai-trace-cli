@@ -21,7 +21,7 @@ import AgentNode from "./AgentNode";
 import ToolNode from "./ToolNode";
 import ExecutionNode from "./ExecutionNode";
 
-// Sample initial data for demonstration
+// Sample initial data based on the execution logs
 const initialNodes: Node[] = [
   {
     id: "agent-1",
@@ -39,7 +39,7 @@ const initialNodes: Node[] = [
     position: { x: 250, y: 250 },
     data: { 
       name: "SerperDevTool",
-      description: "A tool for searching the web and retrieving information." 
+      description: "Search the internet with Serper" 
     },
   },
   {
@@ -47,9 +47,9 @@ const initialNodes: Node[] = [
     type: "execution",
     position: { x: 50, y: 400 },
     data: { 
-      task: "Research climate change",
+      task: "Search: capital of France",
       status: "completed",
-      result: "Found 15 relevant articles about climate change impacts."
+      result: "The capital of France is Paris."
     },
   },
   {
@@ -57,15 +57,15 @@ const initialNodes: Node[] = [
     type: "execution",
     position: { x: 450, y: 400 },
     data: { 
-      task: "Research renewable energy",
+      task: "Research climate change",
       status: "running"
     },
   }
 ];
 
-// Updated edges to show the correct flow of interactions with numbers
+// Updated edges to show the correct sequence with numbers
 const initialEdges: Edge[] = [
-  // Agent initiates tool usage
+  // Step 1: Agent decides to use tool
   {
     id: "edge-agent-to-tool",
     source: "agent-1",
@@ -82,7 +82,7 @@ const initialEdges: Edge[] = [
       color: "#3b82f6",
     }
   },
-  // Agent initiates executions
+  // Step 2: Agent initiates specific executions
   {
     id: "edge-agent-to-execution-1",
     source: "agent-1",
@@ -115,7 +115,7 @@ const initialEdges: Edge[] = [
       color: "#8b5cf6",
     }
   },
-  // Tool helps executions
+  // Step 3: Tool helps with executions
   {
     id: "edge-tool-to-execution-1",
     source: "tool-1",
@@ -148,13 +148,13 @@ const initialEdges: Edge[] = [
       color: "#10b981",
     }
   },
-  // Execution results flow back to the agent (changed from tool to execution)
+  // Step 4: Execution results flow back to the agent
   {
     id: "edge-execution-1-to-agent",
     source: "execution-1",
     target: "agent-1",
     animated: true,
-    label: "(4) Returns data",
+    label: "(4) Returns result",
     labelBgPadding: [8, 4],
     labelBgBorderRadius: 4,
     labelBgStyle: { fill: "#FFFFFF", fillOpacity: 0.8 },
@@ -171,25 +171,7 @@ const initialEdges: Edge[] = [
     source: "execution-2",
     target: "agent-1",
     animated: true,
-    label: "(4) Returns data",
-    labelBgPadding: [8, 4],
-    labelBgBorderRadius: 4,
-    labelBgStyle: { fill: "#FFFFFF", fillOpacity: 0.8 },
-    labelStyle: { fill: "#333333", fontWeight: 500 },
-    type: 'smoothstep',
-    style: { stroke: "#f97316", strokeWidth: 2 },
-    markerEnd: {
-      type: MarkerType.ArrowClosed,
-      color: "#f97316",
-    }
-  },
-  // Tool also returns data to the agent
-  {
-    id: "edge-tool-to-agent",
-    source: "tool-1",
-    target: "agent-1",
-    animated: true,
-    label: "(4) Returns data",
+    label: "(4) Returns result",
     labelBgPadding: [8, 4],
     labelBgBorderRadius: 4,
     labelBgStyle: { fill: "#FFFFFF", fillOpacity: 0.8 },
