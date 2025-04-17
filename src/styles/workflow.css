@@ -65,6 +65,15 @@
   }
 }
 
+/* Enhanced edge label styling for numbered steps */
+.react-flow__edge-text {
+  font-weight: 600;
+}
+
+.react-flow__edge-textbg {
+  fill-opacity: 0.9;
+}
+
 /* Custom handle styling by position */
 .react-flow__handle.custom-handle {
   width: 8px;

@@ -63,7 +63,7 @@ const initialNodes: Node[] = [
   }
 ];
 
-// Updated edges to show the correct flow of interactions
+// Updated edges to show the correct flow of interactions with numbers
 const initialEdges: Edge[] = [
   // Agent initiates tool usage
   {
@@ -71,7 +71,7 @@ const initialEdges: Edge[] = [
     source: "agent-1",
     target: "tool-1",
     animated: true,
-    label: "1. Uses",
+    label: "(1) Uses",
     labelBgPadding: [8, 4],
     labelBgBorderRadius: 4,
     labelBgStyle: { fill: "#FFFFFF", fillOpacity: 0.8 },
@@ -88,7 +88,7 @@ const initialEdges: Edge[] = [
     source: "agent-1",
     target: "execution-1",
     animated: true,
-    label: "2. Initiates",
+    label: "(2) Initiates",
     labelBgPadding: [8, 4],
     labelBgBorderRadius: 4,
     labelBgStyle: { fill: "#FFFFFF", fillOpacity: 0.8 },
@@ -104,7 +104,7 @@ const initialEdges: Edge[] = [
     source: "agent-1",
     target: "execution-2",
     animated: true,
-    label: "2. Initiates",
+    label: "(2) Initiates",
     labelBgPadding: [8, 4],
     labelBgBorderRadius: 4,
     labelBgStyle: { fill: "#FFFFFF", fillOpacity: 0.8 },
@@ -115,13 +115,13 @@ const initialEdges: Edge[] = [
       color: "#8b5cf6",
     }
   },
-  // Tool contributes to executions
+  // Tool helps executions
   {
     id: "edge-tool-to-execution-1",
     source: "tool-1",
     target: "execution-1",
     animated: true,
-    label: "3. Helps with",
+    label: "(3) Helps with",
     labelBgPadding: [8, 4],
     labelBgBorderRadius: 4,
     labelBgStyle: { fill: "#FFFFFF", fillOpacity: 0.8 },
@@ -137,7 +137,7 @@ const initialEdges: Edge[] = [
     source: "tool-1",
     target: "execution-2",
     animated: true,
-    label: "3. Helps with",
+    label: "(3) Helps with",
     labelBgPadding: [8, 4],
     labelBgBorderRadius: 4,
     labelBgStyle: { fill: "#FFFFFF", fillOpacity: 0.8 },
@@ -148,13 +148,48 @@ const initialEdges: Edge[] = [
       color: "#10b981",
     }
   },
-  // Results flow back to the agent
+  // Execution results flow back to the agent (changed from tool to execution)
+  {
+    id: "edge-execution-1-to-agent",
+    source: "execution-1",
+    target: "agent-1",
+    animated: true,
+    label: "(4) Returns data",
+    labelBgPadding: [8, 4],
+    labelBgBorderRadius: 4,
+    labelBgStyle: { fill: "#FFFFFF", fillOpacity: 0.8 },
+    labelStyle: { fill: "#333333", fontWeight: 500 },
+    type: 'smoothstep',
+    style: { stroke: "#f97316", strokeWidth: 2 },
+    markerEnd: {
+      type: MarkerType.ArrowClosed,
+      color: "#f97316",
+    }
+  },
+  {
+    id: "edge-execution-2-to-agent",
+    source: "execution-2",
+    target: "agent-1",
+    animated: true,
+    label: "(4) Returns data",
+    labelBgPadding: [8, 4],
+    labelBgBorderRadius: 4,
+    labelBgStyle: { fill: "#FFFFFF", fillOpacity: 0.8 },
+    labelStyle: { fill: "#333333", fontWeight: 500 },
+    type: 'smoothstep',
+    style: { stroke: "#f97316", strokeWidth: 2 },
+    markerEnd: {
+      type: MarkerType.ArrowClosed,
+      color: "#f97316",
+    }
+  },
+  // Tool also returns data to the agent
   {
     id: "edge-tool-to-agent",
     source: "tool-1",
     target: "agent-1",
     animated: true,
-    label: "4. Returns data",
+    label: "(4) Returns data",
     labelBgPadding: [8, 4],
     labelBgBorderRadius: 4,
     labelBgStyle: { fill: "#FFFFFF", fillOpacity: 0.8 },
