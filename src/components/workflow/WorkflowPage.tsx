@@ -144,25 +144,6 @@ const WorkflowPage = () => {
               </ScrollArea>
             </CardContent>
           </Card>
-          
-          <Card>
-            <CardHeader className="pb-2">
-              <CardTitle>Tools</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="p-3 bg-green-50 border border-green-200 rounded-md mb-3">
-                <h3 className="font-medium text-green-800">SerperDevTool</h3>
-                <p className="text-sm text-gray-600">Search the internet with Serper</p>
-                <p className="text-xs text-gray-500 mt-1">Used for: Web search and information retrieval</p>
-              </div>
-              
-              <div className="p-3 bg-purple-50 border border-purple-200 rounded-md">
-                <h3 className="font-medium text-purple-800">Last Execution</h3>
-                <p className="text-sm text-gray-600">Search: capital of France</p>
-                <p className="text-xs font-medium text-green-600 mt-1">Result: The capital of France is Paris.</p>
-              </div>
-            </CardContent>
-          </Card>
         </div>
       </div>
     </div>
