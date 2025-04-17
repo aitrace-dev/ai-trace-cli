@@ -1,0 +1,75 @@
+{
+    "nodes": [
+        {
+            "id": "16517052-a0f4-4846-beb9-95c10f756937",
+            "type": "agent",
+            "position": {
+                "x": 600,
+                "y": 200
+            },
+            "data": {
+                "role": "Research Analyst",
+                "goal": "Find and summarize information about specific topics",
+                "backstory": "You are an experienced researcher with attention to detail"
+            }
+        },
+        {
+            "id": "795c2f98-2d2f-4155-b2fe-4786e31c86eb",
+            "type": "tool",
+            "position": {
+                "x": 1200,
+                "y": 0
+            },
+            "data": {
+                "name": "Search the internet with Serper",
+                "description": "A tool that can be used to search the internet with a search_query. Supports different search types: 'search' (default), 'news'"
+            }
+        },
+        {
+            "id": "2414debc-9f13-42dc-bd39-daf813704e2e",
+            "type": "tool",
+            "position": {
+                "x": 1200,
+                "y": 300
+            },
+            "data": {
+                "name": "Brave Web Search the internet",
+                "description": "A tool that can be used to search the internet with a search_query."
+            }
+        }
+    ],
+    "edges": [
+        {
+            "id": "e54e1dd6-0ed9-41a6-93b9-5838ddf20715",
+            "source": "16517052-a0f4-4846-beb9-95c10f756937",
+            "target": "795c2f98-2d2f-4155-b2fe-4786e31c86eb",
+            "animated": false,
+            "sourceHandle": "right",
+            "targetHandle": "left",
+            "style": {
+                "stroke": "#3b82f6",
+                "strokeWidth": 2
+            },
+            "markerEnd": {
+                "type": "ArrowClosed",
+                "color": "#3b82f6"
+            }
+        },
+        {
+            "id": "315298ee-c9d8-4096-9823-714d0467e5b1",
+            "source": "16517052-a0f4-4846-beb9-95c10f756937",
+            "target": "2414debc-9f13-42dc-bd39-daf813704e2e",
+            "animated": false,
+            "sourceHandle": "right",
+            "targetHandle": "left",
+            "style": {
+                "stroke": "#3b82f6",
+                "strokeWidth": 2
+            },
+            "markerEnd": {
+                "type": "ArrowClosed",
+                "color": "#3b82f6"
+            }
+        }
+    ]
+}

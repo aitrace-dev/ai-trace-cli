@@ -1,4 +1,3 @@
-
 import { Handle, Position } from "@xyflow/react";
 
 interface ToolNodeProps {
@@ -22,6 +21,18 @@ const ToolNode = ({ data }: ToolNodeProps) => {
         type="target"
         position={Position.Top}
         id="in"
+        className="w-3 h-3 bg-green-500 border-2 border-white"
+      />
+      <Handle
+        type="target"
+        position={Position.Left}
+        id="left"
+        className="w-3 h-3 bg-green-500 border-2 border-white"
+      />
+      <Handle
+        type="source"
+        position={Position.Right}
+        id="right"
         className="w-3 h-3 bg-green-500 border-2 border-white"
       />
       <Handle
