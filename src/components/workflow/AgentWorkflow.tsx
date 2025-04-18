@@ -40,20 +40,6 @@ const fitViewOptions: FitViewOptions = {
 
 // Function to arrange nodes in the correct flow order using dagre
 const getLayoutedElements = (nodes: any[], edges: any[]) => {
-  // Create a new dagre graph
-  const dagreGraph = new dagre.graphlib.Graph();
-  dagreGraph.setDefaultEdgeLabel(() => ({}));
-
-  // Set the rankdir to TB (top to bottom)
-  dagreGraph.setGraph({ 
-    rankdir: 'TB',
-    align: 'UL',
-    nodesep: 120,
-    ranksep: 200,
-    marginx: 20,
-    marginy: 20
-  });
-
   // Group nodes by type
   const nodesByType: Record<string, any[]> = {
     'input': [],
@@ -118,7 +104,7 @@ const getLayoutedElements = (nodes: any[], edges: any[]) => {
   };
 
   // Vertical spacing between node types
-  const verticalSpacing = 200;
+  const verticalSpacing = 120;
   
   // Horizontal spacing between nodes
   const horizontalSpacing = 400;
