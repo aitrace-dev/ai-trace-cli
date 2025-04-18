@@ -17,29 +17,69 @@ const ToolNode = ({ data }: ToolNodeProps) => {
       {data.description && (
         <div className="text-sm text-gray-700">{data.description}</div>
       )}
+      
+      {/* Top handle - supports both source and target with the same ID */}
       <Handle
         type="target"
         position={Position.Top}
         id="in"
         className="w-3 h-3 bg-green-500 border-2 border-white"
+        style={{ zIndex: 1 }}
       />
+      <Handle
+        type="source"
+        position={Position.Top}
+        id="in"
+        className="w-3 h-3 bg-green-500 border-2 border-white"
+        style={{ zIndex: 2 }}
+      />
+      
+      {/* Left handle - supports both source and target with the same ID */}
       <Handle
         type="target"
         position={Position.Left}
         id="left"
         className="w-3 h-3 bg-green-500 border-2 border-white"
+        style={{ zIndex: 1 }}
       />
+      <Handle
+        type="source"
+        position={Position.Left}
+        id="left"
+        className="w-3 h-3 bg-green-500 border-2 border-white"
+        style={{ zIndex: 2 }}
+      />
+      
+      {/* Right handle - supports both source and target with the same ID */}
       <Handle
         type="source"
         position={Position.Right}
         id="right"
         className="w-3 h-3 bg-green-500 border-2 border-white"
+        style={{ zIndex: 1 }}
       />
+      <Handle
+        type="target"
+        position={Position.Right}
+        id="right"
+        className="w-3 h-3 bg-green-500 border-2 border-white"
+        style={{ zIndex: 2 }}
+      />
+      
+      {/* Bottom handle - supports both source and target with the same ID */}
       <Handle
         type="source"
         position={Position.Bottom}
         id="out"
         className="w-3 h-3 bg-green-500 border-2 border-white"
+        style={{ zIndex: 1 }}
+      />
+      <Handle
+        type="target"
+        position={Position.Bottom}
+        id="out"
+        className="w-3 h-3 bg-green-500 border-2 border-white"
+        style={{ zIndex: 2 }}
       />
     </div>
   );

@@ -18,6 +18,7 @@ import { useCallback, useEffect, useState } from "react";
  
 import AgentNode from "./AgentNode";
 import ExecutionNode from "./ExecutionNode";
+import TaskNode from "./TaskNode";
 import ToolNode from "./ToolNode";
 
 // Node types definition
@@ -25,6 +26,7 @@ const nodeTypes: NodeTypes = {
   agent: AgentNode,
   tool: ToolNode,
   execution: ExecutionNode,
+  task: TaskNode,
 };
 
 const fitViewOptions: FitViewOptions = {

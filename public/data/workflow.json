@@ -1,20 +1,20 @@
 {
     "nodes": [
         {
-            "id": "16517052-a0f4-4846-beb9-95c10f756937",
+            "id": "1228ff5d-e799-4f13-931b-b682969fb067",
             "type": "agent",
             "position": {
                 "x": 600,
-                "y": 200
+                "y": 0
             },
             "data": {
-                "role": "Research Analyst",
-                "goal": "Find and summarize information about specific topics",
-                "backstory": "You are an experienced researcher with attention to detail"
+                "role": "{topic} Senior Data Researcher\n",
+                "goal": "Uncover cutting-edge developments in {topic}\n",
+                "backstory": "You're a seasoned researcher with a knack for uncovering the latest developments in {topic}. Known for your ability to find the most relevant information and present it in a clear and concise manner.\n"
             }
         },
         {
-            "id": "795c2f98-2d2f-4155-b2fe-4786e31c86eb",
+            "id": "b15c7379-2831-4df7-89c2-a7acd685ccc6",
             "type": "tool",
             "position": {
                 "x": 1200,
@@ -26,26 +26,55 @@
             }
         },
         {
-            "id": "2414debc-9f13-42dc-bd39-daf813704e2e",
-            "type": "tool",
+            "id": "79ac65d4-22cf-4299-a43a-0d0f0d24ea5c",
+            "type": "agent",
             "position": {
-                "x": 1200,
-                "y": 300
+                "x": 600,
+                "y": 200
             },
             "data": {
-                "name": "Brave Web Search the internet",
-                "description": "A tool that can be used to search the internet with a search_query."
+                "role": "{topic} Reporting Analyst\n",
+                "goal": "Create detailed reports based on {topic} data analysis and research findings\n",
+                "backstory": "You're a meticulous analyst with a keen eye for detail. You're known for your ability to turn complex data into clear and concise reports, making it easy for others to understand and act on the information you provide."
+            }
+        },
+        {
+            "id": "60523a65-fb69-4a2d-b7c4-a33a9a02395b",
+            "type": "task",
+            "position": {
+                "x": 1200,
+                "y": 0
+            },
+            "data": {
+                "name": "research_task",
+                "description": "Conduct a thorough research about {topic} Make sure you find any interesting and relevant information given the current year is 2025.\n",
+                "expected_output": "A list with 10 bullet points of the most relevant information about {topic}\n",
+                "output_file": null
+            }
+        },
+        {
+            "id": "f488895e-9f0d-409e-86df-967521fc4f86",
+            "type": "task",
+            "position": {
+                "x": 1200,
+                "y": 0
+            },
+            "data": {
+                "name": "reporting_task",
+                "description": "Review the context you got and expand each topic into a full section for a report. Make sure the report is detailed and contains any and all relevant information.\n",
+                "expected_output": "A fully fledge reports with the mains topics, each with a full section of information. Formatted as markdown without '```'\n",
+                "output_file": "output/report.md"
             }
         }
     ],
     "edges": [
         {
-            "id": "e54e1dd6-0ed9-41a6-93b9-5838ddf20715",
-            "source": "16517052-a0f4-4846-beb9-95c10f756937",
-            "target": "795c2f98-2d2f-4155-b2fe-4786e31c86eb",
+            "id": "ec190fa8-f0e3-47e0-a383-e04a060fca05",
+            "source": "1228ff5d-e799-4f13-931b-b682969fb067",
+            "target": "b15c7379-2831-4df7-89c2-a7acd685ccc6",
             "animated": false,
-            "sourceHandle": "right",
-            "targetHandle": "left",
+            "sourceHandle": "in",
+            "targetHandle": "out",
             "style": {
                 "stroke": "#3b82f6",
                 "strokeWidth": 2
@@ -56,12 +85,44 @@
             }
         },
         {
-            "id": "315298ee-c9d8-4096-9823-714d0467e5b1",
-            "source": "16517052-a0f4-4846-beb9-95c10f756937",
-            "target": "2414debc-9f13-42dc-bd39-daf813704e2e",
+            "id": "fa728f78-caa4-476c-9fd1-596f82e3b36d",
+            "source": "1228ff5d-e799-4f13-931b-b682969fb067",
+            "target": "60523a65-fb69-4a2d-b7c4-a33a9a02395b",
             "animated": false,
-            "sourceHandle": "right",
-            "targetHandle": "left",
+            "sourceHandle": "in",
+            "targetHandle": "out",
+            "style": {
+                "stroke": "#3b82f6",
+                "strokeWidth": 2
+            },
+            "markerEnd": {
+                "type": "ArrowClosed",
+                "color": "#3b82f6"
+            }
+        },
+        {
+            "id": "b96e49d0-59ea-42a4-ae0a-579fd6b482de",
+            "source": "79ac65d4-22cf-4299-a43a-0d0f0d24ea5c",
+            "target": "f488895e-9f0d-409e-86df-967521fc4f86",
+            "animated": false,
+            "sourceHandle": "in",
+            "targetHandle": "out",
+            "style": {
+                "stroke": "#3b82f6",
+                "strokeWidth": 2
+            },
+            "markerEnd": {
+                "type": "ArrowClosed",
+                "color": "#3b82f6"
+            }
+        },
+        {
+            "id": "36985d2f-8a73-45ff-ab86-89465cab682a",
+            "source": "60523a65-fb69-4a2d-b7c4-a33a9a02395b",
+            "target": "f488895e-9f0d-409e-86df-967521fc4f86",
+            "animated": false,
+            "sourceHandle": "left",
+            "targetHandle": "right",
             "style": {
                 "stroke": "#3b82f6",
                 "strokeWidth": 2
