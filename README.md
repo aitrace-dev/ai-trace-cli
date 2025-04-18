@@ -1,73 +1,52 @@
-# Welcome to your Lovable project
+# AI Trace
 
-## Project info
+AI Trace is a visualization tool for CrewAI workflows. It allows you to visualize your CrewAI agents, tasks, and tools in an interactive diagram.
 
-**URL**: https://lovable.dev/projects/2a5c02fb-3e71-4347-9042-0c0574c924c4
+![AI Trace Visualization](screenshot.png)
+## Installation
 
-## How can I edit this code?
-
-There are several ways of editing your application.
-
-**Use Lovable**
-
-Simply visit the [Lovable Project](https://lovable.dev/projects/2a5c02fb-3e71-4347-9042-0c0574c924c4) and start prompting.
-
-Changes made via Lovable will be committed automatically to this repo.
-
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
+```bash
+pip install ai-trace
 ```
 
-**Edit a file directly in GitHub**
+## Usage
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+```python
+from crewai import Crew, Agent, Task
+from ai_trace.trace_crewai import view_crew, save_view
 
-**Use GitHub Codespaces**
+# Create your CrewAI agents, tasks, and crew as usual
+agent = Agent(
+    role="Data Scientist",
+    goal="Analyze data and provide insights",
+    backstory="You are an experienced data scientist with expertise in data analysis."
+)
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+task = Task(
+    description="Analyze the dataset and provide insights",
+    expected_output="A detailed analysis report",
+    agent=agent
+)
 
-## What technologies are used for this project?
+crew = Crew(
+    agents=[agent],
+    tasks=[task]
+)
 
-This project is built with:
+# Visualize your crew
+view_crew(crew)  # Opens the visualization in your default browser
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+# Or save the visualization to a file
+save_view(crew, "my_crew_visualization.html")
+```
 
-## How can I deploy this project?
+## Features
 
-Simply open [Lovable](https://lovable.dev/projects/2a5c02fb-3e71-4347-9042-0c0574c924c4) and click on Share -> Publish.
+- Visualize CrewAI agents, tasks, and tools
+- Interactive diagram with agent and task details
+- Automatic layout of workflow components
+- Save visualizations as HTML files for sharing
 
-## Can I connect a custom domain to my Lovable project?
+## License
 
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+MIT

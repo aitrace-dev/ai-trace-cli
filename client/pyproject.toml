@@ -1,9 +1,13 @@
 [project]
-name = "ai_trace"
+name = "ai-trace"
+requires-python = ">=3.11"
 version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
 dependencies = []
+
+[tool.poetry]
+packages = [{include = "ai_trace"}]
 
 [dependency-groups]
 dev = [
@@ -11,3 +15,9 @@ dev = [
     "langchain-community>=0.3.21",
 ]
 
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["ai_trace*"]
