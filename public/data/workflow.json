@@ -1,7 +1,7 @@
 {
     "nodes": [
         {
-            "id": "7762f974-80c8-4d29-89d3-30d6a21096e4",
+            "id": "24c02e2f-af0f-4e61-b8c2-3697d825a12f",
             "type": "agent",
             "data": {
                 "role": "{topic} Senior Data Researcher\n",
@@ -10,7 +10,7 @@
             }
         },
         {
-            "id": "5fff0aad-e78d-45da-9af2-a352d842c57d",
+            "id": "0414a62b-527e-4a7a-bb1d-4930361815a3",
             "type": "tool",
             "data": {
                 "name": "Search the internet with Serper",
@@ -18,7 +18,7 @@
             }
         },
         {
-            "id": "1fd01ca7-66c8-4b61-9d9c-73b57f6cce62",
+            "id": "70d0586e-2986-4f13-a333-2ce9d5fda605",
             "type": "agent",
             "data": {
                 "role": "{topic} Reporting Analyst\n",
@@ -27,7 +27,7 @@
             }
         },
         {
-            "id": "bf57ac99-2b78-4baa-9f56-a5175dd6fec2",
+            "id": "899f67ff-80fc-4b8c-9b16-617bfc6423e0",
             "type": "task",
             "is_starting_node": true,
             "data": {
@@ -38,7 +38,7 @@
             }
         },
         {
-            "id": "2f886f76-a5fb-4fb8-b19a-fe4a64dcac77",
+            "id": "c5605662-7326-4554-95ef-57e9c1286901",
             "type": "task",
             "is_starting_node": false,
             "data": {
@@ -51,9 +51,25 @@
     ],
     "edges": [
         {
-            "id": "df40198f-c436-43ef-a601-6bca7c11794d",
-            "source": "7762f974-80c8-4d29-89d3-30d6a21096e4",
-            "target": "5fff0aad-e78d-45da-9af2-a352d842c57d",
+            "id": "ce93a4df-c850-4bd9-ab4d-19e0b1fc700f",
+            "source": "24c02e2f-af0f-4e61-b8c2-3697d825a12f",
+            "target": "0414a62b-527e-4a7a-bb1d-4930361815a3",
+            "animated": false,
+            "sourceHandle": "out",
+            "targetHandle": "in",
+            "style": {
+                "stroke": "#3b82f6",
+                "strokeWidth": 2
+            },
+            "markerEnd": {
+                "type": "ArrowClosed",
+                "color": "#3b82f6"
+            }
+        },
+        {
+            "id": "67409b6d-e36c-43c7-bc15-9929a3746f10",
+            "source": "24c02e2f-af0f-4e61-b8c2-3697d825a12f",
+            "target": "899f67ff-80fc-4b8c-9b16-617bfc6423e0",
             "animated": false,
             "sourceHandle": "in",
             "targetHandle": "out",
@@ -67,9 +83,9 @@
             }
         },
         {
-            "id": "87b8ae19-4a92-41ba-aec3-46df2cdf60c4",
-            "source": "7762f974-80c8-4d29-89d3-30d6a21096e4",
-            "target": "bf57ac99-2b78-4baa-9f56-a5175dd6fec2",
+            "id": "ed5e0669-e74f-46e6-bf7f-2cba27a0d582",
+            "source": "70d0586e-2986-4f13-a333-2ce9d5fda605",
+            "target": "c5605662-7326-4554-95ef-57e9c1286901",
             "animated": false,
             "sourceHandle": "in",
             "targetHandle": "out",
@@ -83,25 +99,9 @@
             }
         },
         {
-            "id": "75fa5db3-fc07-4640-aa48-a6e4729daa86",
-            "source": "1fd01ca7-66c8-4b61-9d9c-73b57f6cce62",
-            "target": "2f886f76-a5fb-4fb8-b19a-fe4a64dcac77",
-            "animated": false,
-            "sourceHandle": "in",
-            "targetHandle": "out",
-            "style": {
-                "stroke": "#3b82f6",
-                "strokeWidth": 2
-            },
-            "markerEnd": {
-                "type": "ArrowClosed",
-                "color": "#3b82f6"
-            }
-        },
-        {
-            "id": "82b2084c-659a-4b36-9bfe-f1b27b6b4a2c",
-            "source": "bf57ac99-2b78-4baa-9f56-a5175dd6fec2",
-            "target": "2f886f76-a5fb-4fb8-b19a-fe4a64dcac77",
+            "id": "cf56a990-55a3-4869-82e6-ff4aada48bc2",
+            "source": "899f67ff-80fc-4b8c-9b16-617bfc6423e0",
+            "target": "c5605662-7326-4554-95ef-57e9c1286901",
             "animated": false,
             "sourceHandle": "left",
             "targetHandle": "right",

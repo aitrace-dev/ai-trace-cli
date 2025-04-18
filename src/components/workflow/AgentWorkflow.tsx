@@ -201,7 +201,31 @@ const getLayoutedElements = (nodes: any[], edges: any[]) => {
     return nodeWithPosition;
   });
 
-  return { nodes: layoutedNodes, edges };
+  // Find the leftmost and rightmost nodes to calculate the total width
+  let minX = Number.MAX_VALUE;
+  let maxX = Number.MIN_VALUE;
+  
+  layoutedNodes.forEach(node => {
+    const nodeRight = node.position.x + nodeWidth[node.type as keyof typeof nodeWidth];
+    minX = Math.min(minX, node.position.x);
+    maxX = Math.max(maxX, nodeRight);
+  });
+  
+  // Calculate the total width and center offset
+  const totalWidth = maxX - minX;
+  const viewportCenter = 1000; // Estimated viewport width / 2
+  const offsetX = viewportCenter - (minX + totalWidth / 2);
+  
+  // Apply the centering offset to all nodes
+  const centeredNodes = layoutedNodes.map(node => ({
+    ...node,
+    position: {
+      x: node.position.x + offsetX,
+      y: node.position.y
+    }
+  }));
+
+  return { nodes: centeredNodes, edges };
 };
 
 const AgentWorkflow = () => {
