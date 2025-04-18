@@ -28,8 +28,8 @@ export default defineConfig(({ mode }) => ({
   build: {
     cssCodeSplit: false,
     assetsInlineLimit: 100000000, // Inline all assets (100MB limit)
-    minify: true,
-    sourcemap: false,
+    minify: false, // Disable minification for better readability
+    sourcemap: true, // Enable sourcemaps for better debugging
     rollupOptions: {
       output: {
         inlineDynamicImports: true

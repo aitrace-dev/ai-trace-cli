@@ -1,0 +1,13 @@
+[project]
+name = "ai_trace"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+dependencies = []
+
+[dependency-groups]
+dev = [
+    "crewai>=0.114.0",
+    "langchain-community>=0.3.21",
+]
+

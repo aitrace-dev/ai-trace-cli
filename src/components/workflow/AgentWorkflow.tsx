@@ -38,6 +38,9 @@ const fitViewOptions: FitViewOptions = {
   maxZoom: 1.5,
 };
 
+// Default workflow data when not in local development mode
+const CREW_AI_WORKFLOW = {};
+
 // Function to arrange nodes in the correct flow order using dagre
 const getLayoutedElements = (nodes: any[], edges: any[]) => {
   // Group nodes by type
@@ -270,13 +273,24 @@ const AgentWorkflow = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [rfInstance, setRfInstance] = useState<ReactFlowInstance | null>(null);
 
-  // Load workflow data from JSON file
+  // Load workflow data from JSON file or constant
   useEffect(() => {
     const loadWorkflowData = async () => {
       try {
         setIsLoading(true);
-        const response = await fetch('/data/workflow.json');
-        const data = await response.json();
+        
+        let data;
+        // Check if we're in local development mode
+        if (import.meta.env.VITE_ENV === 'local') {
+          // In local development mode, load from file
+          console.log('Loading workflow from file in local mode');
+          const response = await fetch('/data/workflow.json');
+          data = await response.json();
+        } else {
+          // In production or other environments, use the constant
+          console.log('Using built-in CREW_AI_WORKFLOW constant');
+          data = CREW_AI_WORKFLOW;
+        }
 
         // Process nodes to ensure they have the correct types
         const processedNodes = data.nodes.map((node: any) => ({

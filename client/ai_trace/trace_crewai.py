@@ -1,19 +1,18 @@
 import json
+import os
 import re
 import uuid
-
-from crewai import Crew, Task
-from crewai.agents.agent_builder.base_agent import BaseAgent
-from crewai.tools import BaseTool
+import webbrowser
+from importlib import resources
 
 
-def _extract_tool_description(tool: BaseTool) -> str:
+def _extract_tool_description(tool) -> str:
     tool_description = re.search(
         r"Tool Description: (.*)", tool.description, re.DOTALL)
     return tool_description.group(1)
 
 
-def _extract_task_variables(task: Task) -> list[str]:
+def _extract_task_variables(task) -> list[str]:
     """Variables starts with { and ends with }"""
     variable_regex = r"\{(.+?)\}"
     to_return = []
@@ -24,7 +23,7 @@ def _extract_task_variables(task: Task) -> list[str]:
     return to_return
 
 
-def _extract_agent_variables(agent: BaseAgent) -> list[str]:
+def _extract_agent_variables(agent) -> list[str]:
     """Variables starts with { and ends with }"""
     variable_regex = r"\{(.+?)\}"
     to_return = []
@@ -35,7 +34,7 @@ def _extract_agent_variables(agent: BaseAgent) -> list[str]:
     return to_return
 
 
-def create_json(crew: Crew):
+def _create_crew_ai_json(crew):
     tool_y = -300
     agent_y = -200
     graph_nodes = []
@@ -174,5 +173,28 @@ def create_json(crew: Crew):
                 "stroke": "#3b82f6",
             }})
 
-    with open('/Users/leaseplan/Develop/crew-flow-vision/public/data/workflow.json', 'w') as f:
-        f.write(json.dumps(agent_dict, indent=4))
+    return agent_dict
+
+
+def _render_crew_ai_html(crew_ai_dict, path):
+    with resources.path('ai_trace.assets', 'index.html') as index_path:
+        with open(index_path, 'r') as f:
+            html = f.read()
+    html = html.replace('const CREW_AI_WORKFLOW = {};', f'const CREW_AI_WORKFLOW = {json.dumps(crew_ai_dict)};')
+    with open(path, 'w') as f:
+        f.write(html)
+
+
+def view_crew(crew):
+
+    agent_dict = _create_crew_ai_json(crew)
+    path = f'crew_ai-{uuid.uuid4()}.html'
+    # Get absolute path
+    path = os.path.abspath(path)
+    _render_crew_ai_html(agent_dict, path)
+    webbrowser.open('file://' + path)
+
+
+def save_view(crew, path):
+    agent_dict = _create_crew_ai_json(crew)
+    _render_crew_ai_html(agent_dict, path)
