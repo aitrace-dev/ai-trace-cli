@@ -1,7 +1,7 @@
 {
     "nodes": [
         {
-            "id": "24c02e2f-af0f-4e61-b8c2-3697d825a12f",
+            "id": "15ec5f37-5100-4c11-b5d9-0bbd234f7129",
             "type": "agent",
             "data": {
                 "role": "{topic} Senior Data Researcher\n",
@@ -10,7 +10,7 @@
             }
         },
         {
-            "id": "0414a62b-527e-4a7a-bb1d-4930361815a3",
+            "id": "65441b8f-541d-42df-a501-f7e681ef7622",
             "type": "tool",
             "data": {
                 "name": "Search the internet with Serper",
@@ -18,7 +18,7 @@
             }
         },
         {
-            "id": "70d0586e-2986-4f13-a333-2ce9d5fda605",
+            "id": "f855b4fc-a903-490e-a716-223e42e9a95f",
             "type": "agent",
             "data": {
                 "role": "{topic} Reporting Analyst\n",
@@ -27,9 +27,8 @@
             }
         },
         {
-            "id": "899f67ff-80fc-4b8c-9b16-617bfc6423e0",
+            "id": "c611de9f-bdc6-46f0-a36f-a29dce9a0799",
             "type": "task",
-            "is_starting_node": true,
             "data": {
                 "name": "research_task",
                 "description": "Conduct a thorough research about {topic} Make sure you find any interesting and relevant information given the current year is 2025.\n",
@@ -38,22 +37,32 @@
             }
         },
         {
-            "id": "c5605662-7326-4554-95ef-57e9c1286901",
+            "id": "2d3b763f-987e-489a-8450-677878242534",
             "type": "task",
-            "is_starting_node": false,
             "data": {
                 "name": "reporting_task",
                 "description": "Review the context you got and expand each topic into a full section for a report. Make sure the report is detailed and contains any and all relevant information.\n",
                 "expected_output": "A fully fledge reports with the mains topics, each with a full section of information. Formatted as markdown without '```'\n",
                 "output_file": "output/report.md"
             }
+        },
+        {
+            "id": "0058c75e-8644-43c1-a528-a5c336208c86",
+            "type": "input",
+            "is_starting_node": true,
+            "data": {
+                "name": "User input",
+                "variables": [
+                    "topic"
+                ]
+            }
         }
     ],
     "edges": [
         {
-            "id": "ce93a4df-c850-4bd9-ab4d-19e0b1fc700f",
-            "source": "24c02e2f-af0f-4e61-b8c2-3697d825a12f",
-            "target": "0414a62b-527e-4a7a-bb1d-4930361815a3",
+            "id": "a94cab9f-63e5-4ed2-8177-f0a5e9fd47c4",
+            "source": "15ec5f37-5100-4c11-b5d9-0bbd234f7129",
+            "target": "65441b8f-541d-42df-a501-f7e681ef7622",
             "animated": false,
             "sourceHandle": "out",
             "targetHandle": "in",
@@ -67,9 +76,9 @@
             }
         },
         {
-            "id": "67409b6d-e36c-43c7-bc15-9929a3746f10",
-            "source": "24c02e2f-af0f-4e61-b8c2-3697d825a12f",
-            "target": "899f67ff-80fc-4b8c-9b16-617bfc6423e0",
+            "id": "d8cd1f20-0c7b-49c5-8f85-ceae0f871e5b",
+            "source": "15ec5f37-5100-4c11-b5d9-0bbd234f7129",
+            "target": "c611de9f-bdc6-46f0-a36f-a29dce9a0799",
             "animated": false,
             "sourceHandle": "in",
             "targetHandle": "out",
@@ -83,9 +92,9 @@
             }
         },
         {
-            "id": "ed5e0669-e74f-46e6-bf7f-2cba27a0d582",
-            "source": "70d0586e-2986-4f13-a333-2ce9d5fda605",
-            "target": "c5605662-7326-4554-95ef-57e9c1286901",
+            "id": "e61d8401-725a-463d-9499-68ba36dbda39",
+            "source": "f855b4fc-a903-490e-a716-223e42e9a95f",
+            "target": "2d3b763f-987e-489a-8450-677878242534",
             "animated": false,
             "sourceHandle": "in",
             "targetHandle": "out",
@@ -99,12 +108,12 @@
             }
         },
         {
-            "id": "cf56a990-55a3-4869-82e6-ff4aada48bc2",
-            "source": "899f67ff-80fc-4b8c-9b16-617bfc6423e0",
-            "target": "c5605662-7326-4554-95ef-57e9c1286901",
+            "id": "383a03ee-ef64-427b-b378-88e253a75d58",
+            "source": "c611de9f-bdc6-46f0-a36f-a29dce9a0799",
+            "target": "2d3b763f-987e-489a-8450-677878242534",
             "animated": false,
-            "sourceHandle": "left",
-            "targetHandle": "right",
+            "sourceHandle": "right",
+            "targetHandle": "left",
             "style": {
                 "stroke": "#3b82f6",
                 "strokeWidth": 2
@@ -112,6 +121,17 @@
             "markerEnd": {
                 "type": "ArrowClosed",
                 "color": "#3b82f6"
+            }
+        },
+        {
+            "id": "80ac5aee-fc15-41bc-9b57-c3f66575c8c7",
+            "target": "c611de9f-bdc6-46f0-a36f-a29dce9a0799",
+            "source": "0058c75e-8644-43c1-a528-a5c336208c86",
+            "animated": false,
+            "sourceHandle": "right",
+            "targetHandle": "left",
+            "style": {
+                "stroke": "#3b82f6"
             }
         }
     ]

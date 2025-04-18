@@ -21,6 +21,7 @@ import AgentNode from "./AgentNode";
 import ExecutionNode from "./ExecutionNode";
 import TaskNode from "./TaskNode";
 import ToolNode from "./ToolNode";
+import InputNode from "./InputNode";
 
 // Node types definition
 const nodeTypes: NodeTypes = {
@@ -28,6 +29,7 @@ const nodeTypes: NodeTypes = {
   tool: ToolNode,
   execution: ExecutionNode,
   task: TaskNode,
+  input: InputNode,
 };
 
 const fitViewOptions: FitViewOptions = {
@@ -46,7 +48,7 @@ const getLayoutedElements = (nodes: any[], edges: any[]) => {
   dagreGraph.setGraph({ 
     rankdir: 'TB',
     align: 'UL',
-    nodesep: 80,
+    nodesep: 120,
     ranksep: 200,
     marginx: 20,
     marginy: 20
@@ -54,6 +56,7 @@ const getLayoutedElements = (nodes: any[], edges: any[]) => {
 
   // Group nodes by type
   const nodesByType: Record<string, any[]> = {
+    'input': [],
     'task': [],
     'agent': [],
     'tool': []
@@ -66,221 +69,193 @@ const getLayoutedElements = (nodes: any[], edges: any[]) => {
     }
   });
 
-  // Find tasks, agents, and tools
+  // Find starting input node, tasks, agents, and tools
+  const startingInput = nodes.find(node => node.type === 'input' && node.is_starting_node === true);
   const startingTask = nodes.find(node => node.type === 'task' && node.is_starting_node === true);
+  const inputs = nodesByType['input'];
   const tasks = nodesByType['task'];
   const agents = nodesByType['agent'];
   const tools = nodesByType['tool'];
 
-  // Create a clean adjacency map to track connections
-  const adjacencyMap: Record<string, string[]> = {};
+  // Create a map to track connections between nodes
+  const connectionMap: Record<string, string[]> = {};
+  const reverseConnectionMap: Record<string, string[]> = {};
   
-  // Create a reverse adjacency map to track which nodes connect to a given node
-  const reverseAdjacencyMap: Record<string, string[]> = {};
-
-  // Initialize the adjacency maps
+  // Initialize the connection maps
   nodes.forEach(node => {
-    adjacencyMap[node.id] = [];
-    reverseAdjacencyMap[node.id] = [];
+    connectionMap[node.id] = [];
+    reverseConnectionMap[node.id] = [];
   });
 
-  // Populate adjacency maps
+  // Populate connection maps
   edges.forEach(edge => {
     const sourceId = edge.source;
     const targetId = edge.target;
-    adjacencyMap[sourceId].push(targetId);
-    reverseAdjacencyMap[targetId].push(sourceId);
+    connectionMap[sourceId].push(targetId);
+    reverseConnectionMap[targetId].push(sourceId);
   });
 
-  // Define node size based on type
+  // Define node dimensions
   const nodeWidth = {
+    'input': 320,
     'task': 320,
     'agent': 320,
     'tool': 280
   };
 
   const nodeHeight = {
+    'input': 180,
     'task': 340,
     'agent': 280,
     'tool': 180
   };
 
-  // Set ranks for dagre to ensure correct vertical ordering
-  if (startingTask) {
-    // Set the starting task as rank 0
-    dagreGraph.setNode(startingTask.id, { 
-      width: nodeWidth['task'],
-      height: nodeHeight['task'],
-      rank: 0
+  // Define Y positions for each node type
+  const yPositions = {
+    'input': 100,
+    'task': 100,
+    'agent': 500,
+    'tool': 800
+  };
+
+  // Horizontal spacing between nodes
+  const horizontalSpacing = 400;
+  
+  // Create a copy of the nodes array for positioning
+  const layoutedNodes = [...nodes];
+  
+  // Step 1: Position the input node (starting node) at the leftmost position
+  if (startingInput) {
+    const inputNode = layoutedNodes.find(node => node.id === startingInput.id);
+    if (inputNode) {
+      inputNode.position = {
+        x: 100,
+        y: yPositions['input']
+      };
+    }
+  } else if (inputs.length > 0) {
+    // If no starting input is specified, use the first input node
+    const inputNode = layoutedNodes.find(node => node.id === inputs[0].id);
+    if (inputNode) {
+      inputNode.position = {
+        x: 100,
+        y: yPositions['input']
+      };
+    }
+  }
+  
+  // Step 2: Position task nodes at the same Y level but separated horizontally
+  // Find tasks connected to the input node
+  let connectedTasks: any[] = [];
+  if (startingInput) {
+    connectedTasks = tasks.filter(task => 
+      connectionMap[startingInput.id].includes(task.id) || 
+      reverseConnectionMap[task.id].includes(startingInput.id)
+    );
+  }
+  
+  // If there are connected tasks, position them first
+  if (connectedTasks.length > 0) {
+    connectedTasks.forEach((task, index) => {
+      const taskNode = layoutedNodes.find(node => node.id === task.id);
+      if (taskNode) {
+        taskNode.position = {
+          x: 500 + (index * horizontalSpacing),
+          y: yPositions['task']
+        };
+      }
     });
-
-    // Process all nodes connected to the starting task first
-    const processAllConnectedNodes = (nodeId: string, visited: Set<string> = new Set()) => {
-      if (visited.has(nodeId)) return;
-      visited.add(nodeId);
-
-      const connectedNodeIds = adjacencyMap[nodeId] || [];
-
-      connectedNodeIds.forEach(connectedId => {
-        const connectedNode = nodes.find(n => n.id === connectedId);
-        if (connectedNode) {
-          if (!dagreGraph.hasNode(connectedId)) {
-            dagreGraph.setNode(connectedId, {
-              width: nodeWidth[connectedNode.type as keyof typeof nodeWidth],
-              height: nodeHeight[connectedNode.type as keyof typeof nodeHeight]
-            });
-          }
-
-          processAllConnectedNodes(connectedId, visited);
-        }
-      });
-    };
-
-    processAllConnectedNodes(startingTask.id);
-
-    // Add any remaining tasks that weren't connected to the starting task
-    tasks.forEach(task => {
-      if (!dagreGraph.hasNode(task.id)) {
-        dagreGraph.setNode(task.id, {
-          width: nodeWidth['task'],
-          height: nodeHeight['task']
-        });
+    
+    // Position any remaining tasks
+    const remainingTasks = tasks.filter(task => !connectedTasks.includes(task));
+    remainingTasks.forEach((task, index) => {
+      const taskNode = layoutedNodes.find(node => node.id === task.id);
+      if (taskNode) {
+        taskNode.position = {
+          x: 500 + ((connectedTasks.length + index) * horizontalSpacing),
+          y: yPositions['task']
+        };
       }
     });
   } else {
-    // If no starting task, just add all tasks
-    tasks.forEach(task => {
-      dagreGraph.setNode(task.id, {
-        width: nodeWidth['task'],
-        height: nodeHeight['task']
-      });
+    // If no connected tasks, position all tasks sequentially
+    tasks.forEach((task, index) => {
+      const taskNode = layoutedNodes.find(node => node.id === task.id);
+      if (taskNode) {
+        taskNode.position = {
+          x: 500 + (index * horizontalSpacing),
+          y: yPositions['task']
+        };
+      }
     });
   }
-
-  // Add all remaining agents that haven't been added
-  agents.forEach(agent => {
-    if (!dagreGraph.hasNode(agent.id)) {
-      dagreGraph.setNode(agent.id, {
-        width: nodeWidth['agent'],
-        height: nodeHeight['agent']
-      });
-    }
-  });
-
-  // Add all remaining tools that haven't been added
-  tools.forEach(tool => {
-    if (!dagreGraph.hasNode(tool.id)) {
-      dagreGraph.setNode(tool.id, {
-        width: nodeWidth['tool'],
-        height: nodeHeight['tool']
-      });
-    }
-  });
-
-  // Add all edges
-  edges.forEach(edge => {
-    dagreGraph.setEdge(edge.source, edge.target);
-  });
-
-  // Run the layout
-  dagre.layout(dagreGraph);
-
-  // Base Y positions for tasks and agents
-  const yPositions = {
-    'task': 100,
-    'agent': 500
-  };
   
-  // Vertical spacing between an agent and its tools
-  const verticalSpacing = 120;
-
-  // First pass: Position all tasks and agents
-  const layoutedNodes = nodes.map(node => {
-    const nodeWithPosition = { ...node };
-    if (dagreGraph.hasNode(node.id)) {
-      // Get position from dagre for X
-      const dagreNode = dagreGraph.node(node.id);
-      
-      // For tasks and agents, use fixed Y positions
-      if (node.type === 'task' || node.type === 'agent') {
-        nodeWithPosition.position = {
-          x: dagreNode.x - nodeWidth[node.type as keyof typeof nodeWidth] / 2,
-          y: yPositions[node.type as keyof typeof yPositions]
-        };
-      }
-      // Tools will be positioned in the second pass
-      else if (node.type === 'tool') {
-        // Temporary position - will be replaced in the second pass
-        nodeWithPosition.position = {
-          x: 0,
-          y: 0
-        };
-      }
-    }
-    return nodeWithPosition;
-  });
-
-  // Second pass: Position tools directly below their connected agents
-  layoutedNodes.forEach(node => {
-    if (node.type === 'tool') {
-      // Find which agent(s) this tool is connected to
-      const parentAgentIds = reverseAdjacencyMap[node.id]
-        .filter(sourceId => {
-          const sourceNode = layoutedNodes.find(n => n.id === sourceId);
-          return sourceNode && sourceNode.type === 'agent';
+  // Step 3: Position agents below their connected tasks
+  agents.forEach(agent => {
+    const agentNode = layoutedNodes.find(node => node.id === agent.id);
+    if (agentNode) {
+      // Find tasks connected to this agent
+      const connectedTaskIds = [...connectionMap[agent.id], ...reverseConnectionMap[agent.id]]
+        .filter(id => {
+          const node = layoutedNodes.find(n => n.id === id);
+          return node && node.type === 'task';
         });
       
-      if (parentAgentIds.length > 0) {
-        // If connected to an agent, position directly below that agent
-        const parentAgent = layoutedNodes.find(n => n.id === parentAgentIds[0]);
-        if (parentAgent) {
-          // Use the exact same X position as the parent agent for perfect alignment
-          // But adjust for the different widths to ensure centers align
+      if (connectedTaskIds.length > 0) {
+        // Position agent below the first connected task
+        const connectedTask = layoutedNodes.find(node => node.id === connectedTaskIds[0]);
+        if (connectedTask) {
+          agentNode.position = {
+            x: connectedTask.position.x,
+            y: yPositions['agent']
+          };
+        }
+      } else {
+        // If no connected tasks, position at a default location
+        agentNode.position = {
+          x: 500,
+          y: yPositions['agent']
+        };
+      }
+    }
+  });
+  
+  // Step 4: Position tools below their connected agents
+  tools.forEach(tool => {
+    const toolNode = layoutedNodes.find(node => node.id === tool.id);
+    if (toolNode) {
+      // Find agents connected to this tool
+      const connectedAgentIds = [...connectionMap[tool.id], ...reverseConnectionMap[tool.id]]
+        .filter(id => {
+          const node = layoutedNodes.find(n => n.id === id);
+          return node && node.type === 'agent';
+        });
+      
+      if (connectedAgentIds.length > 0) {
+        // Position tool below the first connected agent
+        const connectedAgent = layoutedNodes.find(node => node.id === connectedAgentIds[0]);
+        if (connectedAgent) {
+          // Center the tool below the agent
           const toolWidth = nodeWidth['tool'];
           const agentWidth = nodeWidth['agent'];
           const xOffset = (agentWidth - toolWidth) / 2;
           
-          // Position tool centered below the agent
-          node.position = {
-            x: parentAgent.position.x + xOffset,
-            y: parentAgent.position.y + nodeHeight['agent'] + verticalSpacing
+          toolNode.position = {
+            x: connectedAgent.position.x + xOffset,
+            y: yPositions['tool']
           };
-        } else {
-          // Fallback if parent agent not found (shouldn't happen)
-          node.position.y = yPositions['agent'] + nodeHeight['agent'] + verticalSpacing;
         }
       } else {
-        // If not connected to an agent, use a default position
-        node.position.y = yPositions['agent'] + nodeHeight['agent'] + verticalSpacing;
+        // If no connected agents, position at a default location
+        toolNode.position = {
+          x: 500,
+          y: yPositions['tool']
+        };
       }
     }
   });
-
-  // Find the leftmost and rightmost nodes to calculate the total width
-  let minX = Number.MAX_VALUE;
-  let maxX = Number.MIN_VALUE;
   
-  layoutedNodes.forEach(node => {
-    const nodeRight = node.position.x + nodeWidth[node.type as keyof typeof nodeWidth];
-    minX = Math.min(minX, node.position.x);
-    maxX = Math.max(maxX, nodeRight);
-  });
-  
-  // Calculate the total width and center offset
-  const totalWidth = maxX - minX;
-  const viewportCenter = 1000; // Estimated viewport width / 2
-  const offsetX = viewportCenter - (minX + totalWidth / 2);
-  
-  // Apply the centering offset to all nodes
-  const centeredNodes = layoutedNodes.map(node => ({
-    ...node,
-    position: {
-      x: node.position.x + offsetX,
-      y: node.position.y
-    }
-  }));
-
-  return { nodes: centeredNodes, edges };
+  return { nodes: layoutedNodes, edges };
 };
 
 const AgentWorkflow = () => {
