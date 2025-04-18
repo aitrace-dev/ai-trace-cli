@@ -22,6 +22,7 @@ import InputNode from "./InputNode";
 import TaskNode from "./TaskNode";
 import ToolNode from "./ToolNode";
 
+const proOptions = { hideAttribution: true };
 // Node types definition
 const nodeTypes: NodeTypes = {
   agent: AgentNode,
@@ -208,6 +209,9 @@ const getLayoutedElements = (nodes: any[], edges: any[]) => {
   });
   
   // Step 4: Position tools below their connected agents
+  // Create a map to track tools per agent to prevent overlapping
+  const toolsPerAgent: Record<string, number> = {};
+  
   tools.forEach(tool => {
     const toolNode = layoutedNodes.find(node => node.id === tool.id);
     if (toolNode) {
@@ -222,13 +226,25 @@ const getLayoutedElements = (nodes: any[], edges: any[]) => {
         // Position tool below the first connected agent
         const connectedAgent = layoutedNodes.find(node => node.id === connectedAgentIds[0]);
         if (connectedAgent) {
+          // Initialize tool count for this agent if not already done
+          if (!toolsPerAgent[connectedAgent.id]) {
+            toolsPerAgent[connectedAgent.id] = 0;
+          }
+          
+          // Increment the tool count for this agent
+          toolsPerAgent[connectedAgent.id]++;
+          
           // Center the tool below the agent
           const toolWidth = nodeWidth['tool'];
           const agentWidth = nodeWidth['agent'];
           const xOffset = (agentWidth - toolWidth) / 2;
           
           // Calculate Y position based on agent's position and height plus spacing
-          const toolY = connectedAgent.position.y + nodeHeight['agent'] + verticalSpacing;
+          // Stack tools vertically with additional spacing for each subsequent tool
+          const baseToolY = connectedAgent.position.y + nodeHeight['agent'] + verticalSpacing;
+          const toolIndex = toolsPerAgent[connectedAgent.id] - 1; // 0-based index
+          const verticalToolSpacing = 20; // Additional space between stacked tools
+          const toolY = baseToolY + (toolIndex * (nodeHeight['tool'] + verticalToolSpacing));
           
           toolNode.position = {
             x: connectedAgent.position.x + xOffset,
@@ -343,12 +359,12 @@ const AgentWorkflow = () => {
         minZoom={0.1}
         maxZoom={2}
         onInit={onInit}
+        proOptions={proOptions}
         className="bg-slate-50"
         style={{ height: '100%' }}
       >
         <Background />
         <Controls />
-        <MiniMap />
       </ReactFlow>
     </div>
   );

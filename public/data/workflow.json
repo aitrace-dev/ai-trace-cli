@@ -1,68 +1,111 @@
 {
     "nodes": [
         {
-            "id": "62b67c3d-8165-44de-8fb0-ea55a0cf0bab",
+            "id": "a31bd3b1-be04-4be2-b5c2-e899e539c4b5",
             "type": "agent",
             "data": {
-                "role": "{topic} Senior Data Researcher\n",
-                "goal": "Uncover cutting-edge developments in {topic}\n",
-                "backstory": "You're a seasoned researcher with a knack for uncovering the latest developments in {topic}. Known for your ability to find the most relevant information and present it in a clear and concise manner.\n"
+                "role": "Travel Advisor",
+                "goal": "Craft a personalized itinerary for a trip based on your preferences.",
+                "backstory": "A seasoned globetrotter, passionate about creating unforgettable travel experiences!"
             }
         },
         {
-            "id": "bd80d593-4d92-4f81-a357-7d56d0b8df03",
+            "id": "3008f623-bacb-4d53-bb0c-a4bcb1f77047",
             "type": "tool",
             "data": {
-                "name": "Search the internet with Serper",
-                "description": "A tool that can be used to search the internet with a search_query. Supports different search types: 'search' (default), 'news'"
+                "name": "DuckDuckGoSearch",
+                "description": "Search the web for information on a given topic"
             }
         },
         {
-            "id": "0b47c77e-c125-441e-83cc-4704f3e7e38f",
+            "id": "4c900fa1-f363-4754-b31b-b6ddcabbcf83",
+            "type": "tool",
+            "data": {
+                "name": "Custom Tool",
+                "description": "A custom tool that returns the input as is"
+            }
+        },
+        {
+            "id": "8ecd7fe9-fa20-4877-b857-c0ed46d185c8",
             "type": "agent",
             "data": {
-                "role": "{topic} Reporting Analyst\n",
-                "goal": "Create detailed reports based on {topic} data analysis and research findings\n",
-                "backstory": "You're a meticulous analyst with a keen eye for detail. You're known for your ability to turn complex data into clear and concise reports, making it easy for others to understand and act on the information you provide."
+                "role": "Activity Scout",
+                "goal": "Find exciting activities and attractions in New York City that match your interests.",
+                "backstory": "An expert curator of unique experiences, ready to unveil the hidden gems of {destination}."
             }
         },
         {
-            "id": "e25e0365-853a-42fb-9308-98f64807b876",
+            "id": "116c63ad-6d5a-4e3e-8d35-b3750ae62d76",
+            "type": "tool",
+            "data": {
+                "name": "DuckDuckGoSearch",
+                "description": "Search the web for information on a given topic"
+            }
+        },
+        {
+            "id": "5dc986a6-f85d-4b28-8246-f3b510650fb4",
+            "type": "agent",
+            "data": {
+                "role": "Logistics Coordinator",
+                "goal": "Help you navigate the logistics of your trip to New York City, including flights, accommodation, and transportation.",
+                "backstory": "A logistical whiz, ensuring your trip runs smoothly from start to finish."
+            }
+        },
+        {
+            "id": "12baf0de-d0fc-46a6-bc46-9f5773c1ae1b",
+            "type": "tool",
+            "data": {
+                "name": "DuckDuckGoSearch",
+                "description": "Search the web for information on a given topic"
+            }
+        },
+        {
+            "id": "e22d41b1-b09c-43c9-8494-809f8e171805",
             "type": "task",
             "data": {
-                "name": "research_task",
-                "description": "Conduct a thorough research about {topic} Make sure you find any interesting and relevant information given the current year is 2025.\n",
-                "expected_output": "A list with 10 bullet points of the most relevant information about {topic}\n",
+                "name": null,
+                "description": "Plan a personalized itinerary for a trip to New York City. Consider preferences like travel style (adventure, relaxation, etc.), budget, and desired activities.",
+                "expected_output": "Personalized itinerary for a trip to {destination}.",
                 "output_file": null
             }
         },
         {
-            "id": "109ae185-d71a-4d84-aa73-9df3c3a01000",
+            "id": "8b9e6339-b8f1-443d-af7d-37e175f6e72e",
             "type": "task",
             "data": {
-                "name": "reporting_task",
-                "description": "Review the context you got and expand each topic into a full section for a report. Make sure the report is detailed and contains any and all relevant information.\n",
-                "expected_output": "A fully fledge reports with the mains topics, each with a full section of information. Formatted as markdown without '```'\n",
-                "output_file": "output/report.md"
+                "name": null,
+                "description": "Find exciting activities and attractions in New York City that align with your preferences (e.g., museums, hiking, nightlife).",
+                "expected_output": "List of recommended activities and attractions in {destination}.",
+                "output_file": null
             }
         },
         {
-            "id": "96f2759d-a087-4df3-a17a-13b28f8d3765",
+            "id": "7f2f2d40-ba82-4728-b178-31f8b468cedc",
+            "type": "task",
+            "data": {
+                "name": null,
+                "description": "Help you navigate the logistics of your trip to New York City. Search for flights, accommodation options, and local transportation based on your preferences and itinerary.",
+                "expected_output": "Recommendations for flights, accommodation, and transportation for your trip to {destination}.",
+                "output_file": null
+            }
+        },
+        {
+            "id": "68716867-4689-4c1e-b2e0-592d29bc95c9",
             "type": "agentInput",
             "is_starting_node": true,
             "data": {
                 "name": "User input",
                 "variables": [
-                    "topic"
+                    "destination"
                 ]
             }
         }
     ],
     "edges": [
         {
-            "id": "5727bedd-129c-4064-a517-7192e86c0d6f",
-            "source": "62b67c3d-8165-44de-8fb0-ea55a0cf0bab",
-            "target": "bd80d593-4d92-4f81-a357-7d56d0b8df03",
+            "id": "a1e1994f-5997-47c8-9029-4d0217930a7f",
+            "source": "a31bd3b1-be04-4be2-b5c2-e899e539c4b5",
+            "target": "3008f623-bacb-4d53-bb0c-a4bcb1f77047",
             "animated": false,
             "sourceHandle": "out",
             "targetHandle": "in",
@@ -76,9 +119,57 @@
             }
         },
         {
-            "id": "ed4e8201-ae05-455c-bce5-dab90b3bd4c0",
-            "source": "62b67c3d-8165-44de-8fb0-ea55a0cf0bab",
-            "target": "e25e0365-853a-42fb-9308-98f64807b876",
+            "id": "9a2c1786-04a1-4998-9e87-56c398ec2f7e",
+            "source": "a31bd3b1-be04-4be2-b5c2-e899e539c4b5",
+            "target": "4c900fa1-f363-4754-b31b-b6ddcabbcf83",
+            "animated": false,
+            "sourceHandle": "out",
+            "targetHandle": "in",
+            "style": {
+                "stroke": "#3b82f6",
+                "strokeWidth": 2
+            },
+            "markerEnd": {
+                "type": "ArrowClosed",
+                "color": "#3b82f6"
+            }
+        },
+        {
+            "id": "30dfe88b-77ae-4649-9a8c-e53cfb550255",
+            "source": "8ecd7fe9-fa20-4877-b857-c0ed46d185c8",
+            "target": "116c63ad-6d5a-4e3e-8d35-b3750ae62d76",
+            "animated": false,
+            "sourceHandle": "out",
+            "targetHandle": "in",
+            "style": {
+                "stroke": "#3b82f6",
+                "strokeWidth": 2
+            },
+            "markerEnd": {
+                "type": "ArrowClosed",
+                "color": "#3b82f6"
+            }
+        },
+        {
+            "id": "2a29ef62-381a-40b2-a3c3-85e9c52e7b55",
+            "source": "5dc986a6-f85d-4b28-8246-f3b510650fb4",
+            "target": "12baf0de-d0fc-46a6-bc46-9f5773c1ae1b",
+            "animated": false,
+            "sourceHandle": "out",
+            "targetHandle": "in",
+            "style": {
+                "stroke": "#3b82f6",
+                "strokeWidth": 2
+            },
+            "markerEnd": {
+                "type": "ArrowClosed",
+                "color": "#3b82f6"
+            }
+        },
+        {
+            "id": "3de9913e-5f74-4f83-b539-d6410842dde4",
+            "source": "a31bd3b1-be04-4be2-b5c2-e899e539c4b5",
+            "target": "e22d41b1-b09c-43c9-8494-809f8e171805",
             "animated": false,
             "sourceHandle": "in",
             "targetHandle": "out",
@@ -92,9 +183,9 @@
             }
         },
         {
-            "id": "be1be7cb-0b1a-4285-82e5-2a3798c99ef5",
-            "source": "0b47c77e-c125-441e-83cc-4704f3e7e38f",
-            "target": "109ae185-d71a-4d84-aa73-9df3c3a01000",
+            "id": "ce8c853b-6a21-4e8b-9f82-449dbad681bd",
+            "source": "8ecd7fe9-fa20-4877-b857-c0ed46d185c8",
+            "target": "8b9e6339-b8f1-443d-af7d-37e175f6e72e",
             "animated": false,
             "sourceHandle": "in",
             "targetHandle": "out",
@@ -108,9 +199,9 @@
             }
         },
         {
-            "id": "0b30dd7c-a178-45cd-93ad-8c828575a7d3",
-            "source": "e25e0365-853a-42fb-9308-98f64807b876",
-            "target": "109ae185-d71a-4d84-aa73-9df3c3a01000",
+            "id": "57f0f545-42ab-4293-a677-00d29f980996",
+            "source": "e22d41b1-b09c-43c9-8494-809f8e171805",
+            "target": "8b9e6339-b8f1-443d-af7d-37e175f6e72e",
             "animated": true,
             "sourceHandle": "right",
             "targetHandle": "left",
@@ -124,9 +215,41 @@
             }
         },
         {
-            "id": "95aca4a2-0f78-49ec-8470-3835f68f5111",
-            "target": "e25e0365-853a-42fb-9308-98f64807b876",
-            "source": "96f2759d-a087-4df3-a17a-13b28f8d3765",
+            "id": "58f12625-6c8b-49d8-a98b-aeda4d4b1db9",
+            "source": "5dc986a6-f85d-4b28-8246-f3b510650fb4",
+            "target": "7f2f2d40-ba82-4728-b178-31f8b468cedc",
+            "animated": false,
+            "sourceHandle": "in",
+            "targetHandle": "out",
+            "style": {
+                "stroke": "#3b82f6",
+                "strokeWidth": 2
+            },
+            "markerEnd": {
+                "type": "ArrowClosed",
+                "color": "#3b82f6"
+            }
+        },
+        {
+            "id": "3d624020-e73c-4254-9eda-42468b391af2",
+            "source": "8b9e6339-b8f1-443d-af7d-37e175f6e72e",
+            "target": "7f2f2d40-ba82-4728-b178-31f8b468cedc",
+            "animated": true,
+            "sourceHandle": "right",
+            "targetHandle": "left",
+            "style": {
+                "stroke": "#3b82f6",
+                "strokeWidth": 2
+            },
+            "markerEnd": {
+                "type": "ArrowClosed",
+                "color": "#3b82f6"
+            }
+        },
+        {
+            "id": "1b48a20e-d864-4dac-a8fc-1c10bbbd00bf",
+            "target": "e22d41b1-b09c-43c9-8494-809f8e171805",
+            "source": "68716867-4689-4c1e-b2e0-592d29bc95c9",
             "animated": true,
             "sourceHandle": "right",
             "targetHandle": "left",
