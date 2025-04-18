@@ -1,7 +1,7 @@
 {
     "nodes": [
         {
-            "id": "1228ff5d-e799-4f13-931b-b682969fb067",
+            "id": "7762f974-80c8-4d29-89d3-30d6a21096e4",
             "type": "agent",
             "data": {
                 "role": "{topic} Senior Data Researcher\n",
@@ -10,7 +10,7 @@
             }
         },
         {
-            "id": "b15c7379-2831-4df7-89c2-a7acd685ccc6",
+            "id": "5fff0aad-e78d-45da-9af2-a352d842c57d",
             "type": "tool",
             "data": {
                 "name": "Search the internet with Serper",
@@ -18,7 +18,7 @@
             }
         },
         {
-            "id": "79ac65d4-22cf-4299-a43a-0d0f0d24ea5c",
+            "id": "1fd01ca7-66c8-4b61-9d9c-73b57f6cce62",
             "type": "agent",
             "data": {
                 "role": "{topic} Reporting Analyst\n",
@@ -27,8 +27,9 @@
             }
         },
         {
-            "id": "60523a65-fb69-4a2d-b7c4-a33a9a02395b",
+            "id": "bf57ac99-2b78-4baa-9f56-a5175dd6fec2",
             "type": "task",
+            "is_starting_node": true,
             "data": {
                 "name": "research_task",
                 "description": "Conduct a thorough research about {topic} Make sure you find any interesting and relevant information given the current year is 2025.\n",
@@ -37,8 +38,9 @@
             }
         },
         {
-            "id": "f488895e-9f0d-409e-86df-967521fc4f86",
+            "id": "2f886f76-a5fb-4fb8-b19a-fe4a64dcac77",
             "type": "task",
+            "is_starting_node": false,
             "data": {
                 "name": "reporting_task",
                 "description": "Review the context you got and expand each topic into a full section for a report. Make sure the report is detailed and contains any and all relevant information.\n",
@@ -49,9 +51,9 @@
     ],
     "edges": [
         {
-            "id": "ec190fa8-f0e3-47e0-a383-e04a060fca05",
-            "source": "1228ff5d-e799-4f13-931b-b682969fb067",
-            "target": "b15c7379-2831-4df7-89c2-a7acd685ccc6",
+            "id": "df40198f-c436-43ef-a601-6bca7c11794d",
+            "source": "7762f974-80c8-4d29-89d3-30d6a21096e4",
+            "target": "5fff0aad-e78d-45da-9af2-a352d842c57d",
             "animated": false,
             "sourceHandle": "in",
             "targetHandle": "out",
@@ -65,9 +67,9 @@
             }
         },
         {
-            "id": "fa728f78-caa4-476c-9fd1-596f82e3b36d",
-            "source": "1228ff5d-e799-4f13-931b-b682969fb067",
-            "target": "60523a65-fb69-4a2d-b7c4-a33a9a02395b",
+            "id": "87b8ae19-4a92-41ba-aec3-46df2cdf60c4",
+            "source": "7762f974-80c8-4d29-89d3-30d6a21096e4",
+            "target": "bf57ac99-2b78-4baa-9f56-a5175dd6fec2",
             "animated": false,
             "sourceHandle": "in",
             "targetHandle": "out",
@@ -81,9 +83,9 @@
             }
         },
         {
-            "id": "b96e49d0-59ea-42a4-ae0a-579fd6b482de",
-            "source": "79ac65d4-22cf-4299-a43a-0d0f0d24ea5c",
-            "target": "f488895e-9f0d-409e-86df-967521fc4f86",
+            "id": "75fa5db3-fc07-4640-aa48-a6e4729daa86",
+            "source": "1fd01ca7-66c8-4b61-9d9c-73b57f6cce62",
+            "target": "2f886f76-a5fb-4fb8-b19a-fe4a64dcac77",
             "animated": false,
             "sourceHandle": "in",
             "targetHandle": "out",
@@ -97,9 +99,9 @@
             }
         },
         {
-            "id": "36985d2f-8a73-45ff-ab86-89465cab682a",
-            "source": "60523a65-fb69-4a2d-b7c4-a33a9a02395b",
-            "target": "f488895e-9f0d-409e-86df-967521fc4f86",
+            "id": "82b2084c-659a-4b36-9bfe-f1b27b6b4a2c",
+            "source": "bf57ac99-2b78-4baa-9f56-a5175dd6fec2",
+            "target": "2f886f76-a5fb-4fb8-b19a-fe4a64dcac77",
             "animated": false,
             "sourceHandle": "left",
             "targetHandle": "right",

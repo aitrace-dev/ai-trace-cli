@@ -31,106 +31,176 @@ const nodeTypes: NodeTypes = {
 };
 
 const fitViewOptions: FitViewOptions = {
-  padding: 0.2, // Slightly increased padding for better view
+  padding: 0, // No padding to remove margin/offset
   minZoom: 0.3,
   maxZoom: 1.5,
 };
 
-// More accurate node dimensions based on the screenshot
-const nodeDimensions = {
-  'task': { width: 320, height: 340 },    // Task nodes are much taller
-  'agent': { width: 320, height: 280 },   // Agent nodes are also taller
-  'tool': { width: 280, height: 180 }     // Tool nodes 
-};
-
-// Function to arrange nodes in horizontal rows by type
+// Function to arrange nodes in the correct flow order using dagre
 const getLayoutedElements = (nodes: any[], edges: any[]) => {
-  // Define the order of rows
-  const rowOrder = ['task', 'agent', 'tool'];
-  const verticalPadding = 150; // Space between rows - significant increase to prevent overlap
-  
+  // Create a new dagre graph
+  const dagreGraph = new dagre.graphlib.Graph();
+  dagreGraph.setDefaultEdgeLabel(() => ({}));
+
+  // Set the rankdir to TB (top to bottom)
+  dagreGraph.setGraph({ 
+    rankdir: 'TB',
+    align: 'UL',
+    nodesep: 80,
+    ranksep: 200,
+    marginx: 20,
+    marginy: 20
+  });
+
   // Group nodes by type
   const nodesByType: Record<string, any[]> = {
     'task': [],
     'agent': [],
     'tool': []
   };
-  
+
   // Collect nodes by their types
   nodes.forEach(node => {
     if (nodesByType[node.type]) {
       nodesByType[node.type].push(node);
     }
   });
-  
-  // Position nodes in rows with proper horizontal spacing
-  const layoutedNodes = [...nodes];
-  
-  // Track the Y position for each row
-  let currentY = 50;  // Start at 50px from the top
-  
-  // Process each type of node in order
-  rowOrder.forEach(type => {
-    const typeNodes = nodesByType[type];
-    if (typeNodes.length === 0) return;
-    
-    const nodeWidth = nodeDimensions[type as keyof typeof nodeDimensions].width;
-    const nodeHeight = nodeDimensions[type as keyof typeof nodeDimensions].height;
-    const spacing = 300; // Increased spacing between nodes to prevent horizontal overlap
-    
-    // Calculate total width needed for this row
-    const totalWidth = typeNodes.length * nodeWidth + (typeNodes.length - 1) * spacing;
-    // Calculate starting X position to center the row
-    let startX = 500 - (totalWidth / 2);
-    
-    if (typeNodes.length === 1) {
-      // If there's only one node of this type, center it
-      startX = 500 - (nodeWidth / 2);
-    }
-    
-    // Position each node in the row
-    typeNodes.forEach((node, index) => {
-      const nodeIndex = layoutedNodes.findIndex(n => n.id === node.id);
-      if (nodeIndex !== -1) {
-        layoutedNodes[nodeIndex] = {
-          ...layoutedNodes[nodeIndex],
-          position: {
-            x: startX + (index * (nodeWidth + spacing)),
-            y: currentY
+
+  // Find tasks, agents, and tools
+  const startingTask = nodes.find(node => node.type === 'task' && node.is_starting_node === true);
+  const tasks = nodesByType['task'];
+  const agents = nodesByType['agent'];
+  const tools = nodesByType['tool'];
+
+  // Create a clean adjacency map to track connections
+  const adjacencyMap: Record<string, string[]> = {};
+
+  // Initialize the adjacency map
+  nodes.forEach(node => {
+    adjacencyMap[node.id] = [];
+  });
+
+  // Populate adjacency map
+  edges.forEach(edge => {
+    const sourceId = edge.source;
+    const targetId = edge.target;
+    adjacencyMap[sourceId].push(targetId);
+  });
+
+  // Define node size based on type
+  const nodeWidth = {
+    'task': 320,
+    'agent': 320,
+    'tool': 280
+  };
+
+  const nodeHeight = {
+    'task': 340,
+    'agent': 280,
+    'tool': 180
+  };
+
+  // Set ranks for dagre to ensure correct vertical ordering
+  if (startingTask) {
+    // Set the starting task as rank 0
+    dagreGraph.setNode(startingTask.id, { 
+      width: nodeWidth['task'],
+      height: nodeHeight['task'],
+      rank: 0
+    });
+
+    // Process all nodes connected to the starting task first
+    const processAllConnectedNodes = (nodeId: string, visited: Set<string> = new Set()) => {
+      if (visited.has(nodeId)) return;
+      visited.add(nodeId);
+
+      const connectedNodeIds = adjacencyMap[nodeId] || [];
+
+      connectedNodeIds.forEach(connectedId => {
+        const connectedNode = nodes.find(n => n.id === connectedId);
+        if (connectedNode) {
+          if (!dagreGraph.hasNode(connectedId)) {
+            dagreGraph.setNode(connectedId, {
+              width: nodeWidth[connectedNode.type as keyof typeof nodeWidth],
+              height: nodeHeight[connectedNode.type as keyof typeof nodeHeight]
+            });
           }
-        };
+
+          processAllConnectedNodes(connectedId, visited);
+        }
+      });
+    };
+
+    processAllConnectedNodes(startingTask.id);
+
+    // Add any remaining tasks that weren't connected to the starting task
+    tasks.forEach(task => {
+      if (!dagreGraph.hasNode(task.id)) {
+        dagreGraph.setNode(task.id, {
+          width: nodeWidth['task'],
+          height: nodeHeight['task']
+        });
       }
     });
-    
-    // Update the current Y position for the next row
-    // Use the actual height of the current node type plus padding
-    currentY += nodeHeight + verticalPadding;
-  });
-  
-  // Use dagre for edge routing only
-  const dagreGraph = new dagre.graphlib.Graph();
-  dagreGraph.setDefaultEdgeLabel(() => ({}));
-  dagreGraph.setGraph({ rankdir: 'TB' });
-  
-  // Add nodes to the dagre graph (for edge routing)
-  layoutedNodes.forEach(node => {
-    const { width, height } = nodeDimensions[node.type as keyof typeof nodeDimensions];
-    dagreGraph.setNode(node.id, {
-      width,
-      height,
-      x: node.position.x + (width / 2),
-      y: node.position.y + (height / 2)
+  } else {
+    // If no starting task, just add all tasks
+    tasks.forEach(task => {
+      dagreGraph.setNode(task.id, {
+        width: nodeWidth['task'],
+        height: nodeHeight['task']
+      });
     });
+  }
+
+  // Add all remaining agents that haven't been added
+  agents.forEach(agent => {
+    if (!dagreGraph.hasNode(agent.id)) {
+      dagreGraph.setNode(agent.id, {
+        width: nodeWidth['agent'],
+        height: nodeHeight['agent']
+      });
+    }
   });
-  
-  // Add edges
+
+  // Add all remaining tools that haven't been added
+  tools.forEach(tool => {
+    if (!dagreGraph.hasNode(tool.id)) {
+      dagreGraph.setNode(tool.id, {
+        width: nodeWidth['tool'],
+        height: nodeHeight['tool']
+      });
+    }
+  });
+
+  // Add all edges
   edges.forEach(edge => {
     dagreGraph.setEdge(edge.source, edge.target);
   });
-  
-  // Process the edges with dagre (but preserve node positions)
+
+  // Run the layout
   dagre.layout(dagreGraph);
-  
+
+  // Adjust Y positions to ensure tasks are at the top, agents in the middle, and tools at the bottom
+  const yPositions = {
+    'task': 100,
+    'agent': 500,
+    'tool': 800
+  };
+
+  // Apply the layout to the nodes
+  const layoutedNodes = nodes.map(node => {
+    const nodeWithPosition = { ...node };
+    if (dagreGraph.hasNode(node.id)) {
+      // Get position from dagre for X, but use fixed Y based on node type
+      const dagreNode = dagreGraph.node(node.id);
+      nodeWithPosition.position = {
+        x: dagreNode.x - nodeWidth[node.type as keyof typeof nodeWidth] / 2,
+        y: yPositions[node.type as keyof typeof yPositions]
+      };
+    }
+    return nodeWithPosition;
+  });
+
   return { nodes: layoutedNodes, edges };
 };
 
@@ -163,10 +233,10 @@ const AgentWorkflow = () => {
           } : undefined,
         }));
 
-        // Apply automatic layout
+        // Apply layout algorithm
         const { nodes: layoutedNodes, edges: layoutedEdges } = 
           getLayoutedElements(processedNodes, processedEdges);
-        
+
         setNodes(layoutedNodes);
         setEdges(layoutedEdges);
       } catch (error) {
@@ -178,6 +248,17 @@ const AgentWorkflow = () => {
 
     loadWorkflowData();
   }, []);
+
+  // Apply custom zoom level after the flow is initialized
+  useEffect(() => {
+    if (rfInstance && !isLoading) {
+      // Set the custom zoom level directly without fitting the view first
+      rfInstance.zoomTo(0.8);
+
+      // Set the viewport to start from the top-left corner (0,0)
+      rfInstance.setViewport({ x: 0, y: 0, zoom: 0.8 });
+    }
+  }, [rfInstance, isLoading]);
 
   const onConnect = useCallback(
     (connection: Connection) => {
@@ -213,7 +294,7 @@ const AgentWorkflow = () => {
         onEdgesChange={onEdgesChange}
         onConnect={onConnect}
         nodeTypes={nodeTypes}
-        fitView={true}
+        fitView={false}
         fitViewOptions={fitViewOptions}
         minZoom={0.1}
         maxZoom={2}
