@@ -49,4 +49,4 @@ save_view(crew, "my_crew_visualization.html")
 
 ## License
 
-MIT
+This project is licensed under a modified Commons Clause License. See the [LICENSE](LICENSE) file for details.
