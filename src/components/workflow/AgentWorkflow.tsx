@@ -15,13 +15,12 @@ import {
 } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
 import { useCallback, useEffect, useState } from "react";
-import dagre from "dagre";
 
 import AgentNode from "./AgentNode";
 import ExecutionNode from "./ExecutionNode";
+import InputNode from "./InputNode";
 import TaskNode from "./TaskNode";
 import ToolNode from "./ToolNode";
-import InputNode from "./InputNode";
 
 // Node types definition
 const nodeTypes: NodeTypes = {
@@ -29,7 +28,7 @@ const nodeTypes: NodeTypes = {
   tool: ToolNode,
   execution: ExecutionNode,
   task: TaskNode,
-  input: InputNode,
+  agentInput: InputNode,
 };
 
 const fitViewOptions: FitViewOptions = {
@@ -42,7 +41,7 @@ const fitViewOptions: FitViewOptions = {
 const getLayoutedElements = (nodes: any[], edges: any[]) => {
   // Group nodes by type
   const nodesByType: Record<string, any[]> = {
-    'input': [],
+    'agentInput': [],
     'task': [],
     'agent': [],
     'tool': []
@@ -56,9 +55,9 @@ const getLayoutedElements = (nodes: any[], edges: any[]) => {
   });
 
   // Find starting input node, tasks, agents, and tools
-  const startingInput = nodes.find(node => node.type === 'input' && node.is_starting_node === true);
+  const startingInput = nodes.find(node => node.type === 'agentInput' && node.is_starting_node === true);
   const startingTask = nodes.find(node => node.type === 'task' && node.is_starting_node === true);
-  const inputs = nodesByType['input'];
+  const inputs = nodesByType['agentInput'];
   const tasks = nodesByType['task'];
   const agents = nodesByType['agent'];
   const tools = nodesByType['tool'];
@@ -83,14 +82,14 @@ const getLayoutedElements = (nodes: any[], edges: any[]) => {
 
   // Define node dimensions
   const nodeWidth = {
-    'input': 320,
+    'agentInput': 320,
     'task': 320,
     'agent': 320,
     'tool': 280
   };
 
   const nodeHeight = {
-    'input': 180,
+    'agentInput': 180,
     'task': 340,
     'agent': 280,
     'tool': 180
@@ -98,7 +97,7 @@ const getLayoutedElements = (nodes: any[], edges: any[]) => {
 
   // Define Y positions for each node type
   const yPositions = {
-    'input': 100,
+    'agentInput': 100,
     'task': 100,
     'agent': 500
   };
@@ -118,7 +117,7 @@ const getLayoutedElements = (nodes: any[], edges: any[]) => {
     if (inputNode) {
       inputNode.position = {
         x: 100,
-        y: yPositions['input']
+        y: yPositions['agentInput']
       };
     }
   } else if (inputs.length > 0) {
@@ -127,7 +126,7 @@ const getLayoutedElements = (nodes: any[], edges: any[]) => {
     if (inputNode) {
       inputNode.position = {
         x: 100,
-        y: yPositions['input']
+        y: yPositions['agentInput']
       };
     }
   }

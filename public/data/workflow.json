@@ -1,7 +1,7 @@
 {
     "nodes": [
         {
-            "id": "15ec5f37-5100-4c11-b5d9-0bbd234f7129",
+            "id": "62b67c3d-8165-44de-8fb0-ea55a0cf0bab",
             "type": "agent",
             "data": {
                 "role": "{topic} Senior Data Researcher\n",
@@ -10,7 +10,7 @@
             }
         },
         {
-            "id": "65441b8f-541d-42df-a501-f7e681ef7622",
+            "id": "bd80d593-4d92-4f81-a357-7d56d0b8df03",
             "type": "tool",
             "data": {
                 "name": "Search the internet with Serper",
@@ -18,7 +18,7 @@
             }
         },
         {
-            "id": "f855b4fc-a903-490e-a716-223e42e9a95f",
+            "id": "0b47c77e-c125-441e-83cc-4704f3e7e38f",
             "type": "agent",
             "data": {
                 "role": "{topic} Reporting Analyst\n",
@@ -27,7 +27,7 @@
             }
         },
         {
-            "id": "c611de9f-bdc6-46f0-a36f-a29dce9a0799",
+            "id": "e25e0365-853a-42fb-9308-98f64807b876",
             "type": "task",
             "data": {
                 "name": "research_task",
@@ -37,7 +37,7 @@
             }
         },
         {
-            "id": "2d3b763f-987e-489a-8450-677878242534",
+            "id": "109ae185-d71a-4d84-aa73-9df3c3a01000",
             "type": "task",
             "data": {
                 "name": "reporting_task",
@@ -47,8 +47,8 @@
             }
         },
         {
-            "id": "0058c75e-8644-43c1-a528-a5c336208c86",
-            "type": "input",
+            "id": "96f2759d-a087-4df3-a17a-13b28f8d3765",
+            "type": "agentInput",
             "is_starting_node": true,
             "data": {
                 "name": "User input",
@@ -60,9 +60,9 @@
     ],
     "edges": [
         {
-            "id": "a94cab9f-63e5-4ed2-8177-f0a5e9fd47c4",
-            "source": "15ec5f37-5100-4c11-b5d9-0bbd234f7129",
-            "target": "65441b8f-541d-42df-a501-f7e681ef7622",
+            "id": "5727bedd-129c-4064-a517-7192e86c0d6f",
+            "source": "62b67c3d-8165-44de-8fb0-ea55a0cf0bab",
+            "target": "bd80d593-4d92-4f81-a357-7d56d0b8df03",
             "animated": false,
             "sourceHandle": "out",
             "targetHandle": "in",
@@ -76,9 +76,9 @@
             }
         },
         {
-            "id": "d8cd1f20-0c7b-49c5-8f85-ceae0f871e5b",
-            "source": "15ec5f37-5100-4c11-b5d9-0bbd234f7129",
-            "target": "c611de9f-bdc6-46f0-a36f-a29dce9a0799",
+            "id": "ed4e8201-ae05-455c-bce5-dab90b3bd4c0",
+            "source": "62b67c3d-8165-44de-8fb0-ea55a0cf0bab",
+            "target": "e25e0365-853a-42fb-9308-98f64807b876",
             "animated": false,
             "sourceHandle": "in",
             "targetHandle": "out",
@@ -92,9 +92,9 @@
             }
         },
         {
-            "id": "e61d8401-725a-463d-9499-68ba36dbda39",
-            "source": "f855b4fc-a903-490e-a716-223e42e9a95f",
-            "target": "2d3b763f-987e-489a-8450-677878242534",
+            "id": "be1be7cb-0b1a-4285-82e5-2a3798c99ef5",
+            "source": "0b47c77e-c125-441e-83cc-4704f3e7e38f",
+            "target": "109ae185-d71a-4d84-aa73-9df3c3a01000",
             "animated": false,
             "sourceHandle": "in",
             "targetHandle": "out",
@@ -108,10 +108,10 @@
             }
         },
         {
-            "id": "383a03ee-ef64-427b-b378-88e253a75d58",
-            "source": "c611de9f-bdc6-46f0-a36f-a29dce9a0799",
-            "target": "2d3b763f-987e-489a-8450-677878242534",
-            "animated": false,
+            "id": "0b30dd7c-a178-45cd-93ad-8c828575a7d3",
+            "source": "e25e0365-853a-42fb-9308-98f64807b876",
+            "target": "109ae185-d71a-4d84-aa73-9df3c3a01000",
+            "animated": true,
             "sourceHandle": "right",
             "targetHandle": "left",
             "style": {
@@ -124,10 +124,10 @@
             }
         },
         {
-            "id": "80ac5aee-fc15-41bc-9b57-c3f66575c8c7",
-            "target": "c611de9f-bdc6-46f0-a36f-a29dce9a0799",
-            "source": "0058c75e-8644-43c1-a528-a5c336208c86",
-            "animated": false,
+            "id": "95aca4a2-0f78-49ec-8470-3835f68f5111",
+            "target": "e25e0365-853a-42fb-9308-98f64807b876",
+            "source": "96f2759d-a087-4df3-a17a-13b28f8d3765",
+            "animated": true,
             "sourceHandle": "right",
             "targetHandle": "left",
             "style": {
