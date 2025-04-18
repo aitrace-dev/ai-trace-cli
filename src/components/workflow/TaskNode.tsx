@@ -30,14 +30,7 @@ const TaskNode = ({ data }: TaskNodeProps) => {
           <p className="text-gray-700">{data.expected_output}</p>
         </div>
       )}
-      
-      {data.output_file && (
-        <div className="text-sm">
-          <span className="font-semibold block text-amber-700">Output File:</span>
-          <p className="text-gray-700">{data.output_file}</p>
-        </div>
-      )}
-      
+            
       {/* Top handle - supports both source and target with the same ID */}
       <Handle
         type="target"

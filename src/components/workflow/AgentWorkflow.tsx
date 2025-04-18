@@ -74,17 +74,22 @@ const getLayoutedElements = (nodes: any[], edges: any[]) => {
 
   // Create a clean adjacency map to track connections
   const adjacencyMap: Record<string, string[]> = {};
+  
+  // Create a reverse adjacency map to track which nodes connect to a given node
+  const reverseAdjacencyMap: Record<string, string[]> = {};
 
-  // Initialize the adjacency map
+  // Initialize the adjacency maps
   nodes.forEach(node => {
     adjacencyMap[node.id] = [];
+    reverseAdjacencyMap[node.id] = [];
   });
 
-  // Populate adjacency map
+  // Populate adjacency maps
   edges.forEach(edge => {
     const sourceId = edge.source;
     const targetId = edge.target;
     adjacencyMap[sourceId].push(targetId);
+    reverseAdjacencyMap[targetId].push(sourceId);
   });
 
   // Define node size based on type
@@ -180,25 +185,75 @@ const getLayoutedElements = (nodes: any[], edges: any[]) => {
   // Run the layout
   dagre.layout(dagreGraph);
 
-  // Adjust Y positions to ensure tasks are at the top, agents in the middle, and tools at the bottom
+  // Base Y positions for tasks and agents
   const yPositions = {
     'task': 100,
-    'agent': 500,
-    'tool': 800
+    'agent': 500
   };
+  
+  // Vertical spacing between an agent and its tools
+  const verticalSpacing = 120;
 
-  // Apply the layout to the nodes
+  // First pass: Position all tasks and agents
   const layoutedNodes = nodes.map(node => {
     const nodeWithPosition = { ...node };
     if (dagreGraph.hasNode(node.id)) {
-      // Get position from dagre for X, but use fixed Y based on node type
+      // Get position from dagre for X
       const dagreNode = dagreGraph.node(node.id);
-      nodeWithPosition.position = {
-        x: dagreNode.x - nodeWidth[node.type as keyof typeof nodeWidth] / 2,
-        y: yPositions[node.type as keyof typeof yPositions]
-      };
+      
+      // For tasks and agents, use fixed Y positions
+      if (node.type === 'task' || node.type === 'agent') {
+        nodeWithPosition.position = {
+          x: dagreNode.x - nodeWidth[node.type as keyof typeof nodeWidth] / 2,
+          y: yPositions[node.type as keyof typeof yPositions]
+        };
+      }
+      // Tools will be positioned in the second pass
+      else if (node.type === 'tool') {
+        // Temporary position - will be replaced in the second pass
+        nodeWithPosition.position = {
+          x: 0,
+          y: 0
+        };
+      }
     }
     return nodeWithPosition;
+  });
+
+  // Second pass: Position tools directly below their connected agents
+  layoutedNodes.forEach(node => {
+    if (node.type === 'tool') {
+      // Find which agent(s) this tool is connected to
+      const parentAgentIds = reverseAdjacencyMap[node.id]
+        .filter(sourceId => {
+          const sourceNode = layoutedNodes.find(n => n.id === sourceId);
+          return sourceNode && sourceNode.type === 'agent';
+        });
+      
+      if (parentAgentIds.length > 0) {
+        // If connected to an agent, position directly below that agent
+        const parentAgent = layoutedNodes.find(n => n.id === parentAgentIds[0]);
+        if (parentAgent) {
+          // Use the exact same X position as the parent agent for perfect alignment
+          // But adjust for the different widths to ensure centers align
+          const toolWidth = nodeWidth['tool'];
+          const agentWidth = nodeWidth['agent'];
+          const xOffset = (agentWidth - toolWidth) / 2;
+          
+          // Position tool centered below the agent
+          node.position = {
+            x: parentAgent.position.x + xOffset,
+            y: parentAgent.position.y + nodeHeight['agent'] + verticalSpacing
+          };
+        } else {
+          // Fallback if parent agent not found (shouldn't happen)
+          node.position.y = yPositions['agent'] + nodeHeight['agent'] + verticalSpacing;
+        }
+      } else {
+        // If not connected to an agent, use a default position
+        node.position.y = yPositions['agent'] + nodeHeight['agent'] + verticalSpacing;
+      }
+    }
   });
 
   // Find the leftmost and rightmost nodes to calculate the total width
@@ -310,7 +365,7 @@ const AgentWorkflow = () => {
   }
 
   return (
-    <div className="h-full w-full">
+    <div className="h-full w-full" style={{ height: '100%' }}>
       <ReactFlow
         nodes={nodes}
         edges={edges}
@@ -324,6 +379,7 @@ const AgentWorkflow = () => {
         maxZoom={2}
         onInit={onInit}
         className="bg-slate-50"
+        style={{ height: '100%' }}
       >
         <Background />
         <Controls />
