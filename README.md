@@ -2,7 +2,7 @@
 
 AI Trace is a visualization tool for CrewAI workflows. It allows you to visualize your CrewAI agents, tasks, and tools in an interactive diagram.
 
-![AI Trace Visualization](screenshot.png)
+![AI Trace Visualization](https://github.com/aitrace-dev/ai-trace-cli/blob/main/screenshot.png)
 ## Installation
 
 ```bash
@@ -10,6 +10,21 @@ pip install ai-trace
 ```
 
 ## Usage
+
+There are 2 main functions: `view_crew` and `save_view`.
+
+```python
+from ai_trace.trace_crewai import view_crew, save_view
+...
+view_crew(crew)  # Opens the visualization in your default browser
+
+# Or save the visualization to a file
+save_view(crew, "my_crew_visualization.html")
+
+```
+
+Full example
+
 
 ```python
 from crewai import Crew, Agent, Task
