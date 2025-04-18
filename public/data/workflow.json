@@ -3,10 +3,6 @@
         {
             "id": "1228ff5d-e799-4f13-931b-b682969fb067",
             "type": "agent",
-            "position": {
-                "x": 600,
-                "y": 0
-            },
             "data": {
                 "role": "{topic} Senior Data Researcher\n",
                 "goal": "Uncover cutting-edge developments in {topic}\n",
@@ -16,10 +12,6 @@
         {
             "id": "b15c7379-2831-4df7-89c2-a7acd685ccc6",
             "type": "tool",
-            "position": {
-                "x": 1200,
-                "y": 0
-            },
             "data": {
                 "name": "Search the internet with Serper",
                 "description": "A tool that can be used to search the internet with a search_query. Supports different search types: 'search' (default), 'news'"
@@ -28,10 +20,6 @@
         {
             "id": "79ac65d4-22cf-4299-a43a-0d0f0d24ea5c",
             "type": "agent",
-            "position": {
-                "x": 600,
-                "y": 200
-            },
             "data": {
                 "role": "{topic} Reporting Analyst\n",
                 "goal": "Create detailed reports based on {topic} data analysis and research findings\n",
@@ -41,10 +29,6 @@
         {
             "id": "60523a65-fb69-4a2d-b7c4-a33a9a02395b",
             "type": "task",
-            "position": {
-                "x": 1200,
-                "y": 0
-            },
             "data": {
                 "name": "research_task",
                 "description": "Conduct a thorough research about {topic} Make sure you find any interesting and relevant information given the current year is 2025.\n",
@@ -55,10 +39,6 @@
         {
             "id": "f488895e-9f0d-409e-86df-967521fc4f86",
             "type": "task",
-            "position": {
-                "x": 1200,
-                "y": 0
-            },
             "data": {
                 "name": "reporting_task",
                 "description": "Review the context you got and expand each topic into a full section for a report. Make sure the report is detailed and contains any and all relevant information.\n",
