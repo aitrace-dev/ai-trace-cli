@@ -114,10 +114,12 @@ const getLayoutedElements = (nodes: any[], edges: any[]) => {
   const yPositions = {
     'input': 100,
     'task': 100,
-    'agent': 500,
-    'tool': 800
+    'agent': 500
   };
 
+  // Vertical spacing between node types
+  const verticalSpacing = 200;
+  
   // Horizontal spacing between nodes
   const horizontalSpacing = 400;
   
@@ -240,16 +242,19 @@ const getLayoutedElements = (nodes: any[], edges: any[]) => {
           const agentWidth = nodeWidth['agent'];
           const xOffset = (agentWidth - toolWidth) / 2;
           
+          // Calculate Y position based on agent's position and height plus spacing
+          const toolY = connectedAgent.position.y + nodeHeight['agent'] + verticalSpacing;
+          
           toolNode.position = {
             x: connectedAgent.position.x + xOffset,
-            y: yPositions['tool']
+            y: toolY
           };
         }
       } else {
         // If no connected agents, position at a default location
         toolNode.position = {
           x: 500,
-          y: yPositions['tool']
+          y: yPositions['agent'] + nodeHeight['agent'] + verticalSpacing
         };
       }
     }
